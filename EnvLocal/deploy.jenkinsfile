@@ -13,37 +13,31 @@ pipeline {
         stage("Init") {
             steps {
                 echo "Initializing.."
-                }
             }
-        }        
+        }  
         stage("Open KB") {
             steps {
                 echo "Opening KB.."
-                }
             }
         }
         stage("Set Properties") {
             steps {
                 echo "Setting Properties.."
-                }
             }
         }
         stage("Bring Changes") {
             steps {
                 echo "Bringin Changes.."
-                }
             }
         }
         stage("Commit Changes") {
             steps {
                 echo "Commiting Changes.."
-                }
             }
         }
         stage("Build All") {
             steps {
                 echo "Building All.."
-                }
             }
         }
     }
