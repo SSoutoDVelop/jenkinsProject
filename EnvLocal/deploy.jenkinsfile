@@ -2,6 +2,7 @@
 
 
 pipeline {
+    agent any
     parameters {
         choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
