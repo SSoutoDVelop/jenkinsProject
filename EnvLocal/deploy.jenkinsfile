@@ -1,0 +1,50 @@
+
+
+
+pipeline {
+    agent { label "jenkins-test" }
+    parameters {
+        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
+        choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
+        string(name: "BringChangesRevisionIds", defaultValue: "None", description: "Commit Numbers to Bring Changes from Upstream Version (None or a ; separated list of commit # (e.g: 1;2;3))")
+    }
+    stages {
+        stage("Init") {
+            steps {
+                echo "Initializing.."
+                }
+            }
+        }        
+        stage("Open KB") {
+            steps {
+                echo "Opening KB.."
+                }
+            }
+        }
+        stage("Set Properties") {
+            steps {
+                echo "Setting Properties.."
+                }
+            }
+        }
+        stage("Bring Changes") {
+            steps {
+                echo "Bringin Changes.."
+                }
+            }
+        }
+        stage("Commit Changes") {
+            steps {
+                echo "Commiting Changes.."
+                }
+            }
+        }
+        stage("Build All") {
+            steps {
+                echo "Building All.."
+                }
+            }
+        }
+    }
+}
