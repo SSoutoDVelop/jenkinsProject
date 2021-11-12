@@ -18,7 +18,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     envName = params.KBEnvironment
-                    utilScript = load "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\commoncommon\\util.groovy"
+                    utilScript = load "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\common\\util.groovy"
                     // globalParameters = utilScript.globalParameters(envName)
                     parametersScript = load "EnvLocal\\parameters.groovy"
                     config = parametersScript.getForEnvironment(envName)
