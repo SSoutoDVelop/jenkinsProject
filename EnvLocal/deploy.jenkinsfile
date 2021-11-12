@@ -1,10 +1,13 @@
-
-
+def utilScript
+def globalParameters
+def parametersScript
+def config
 
 pipeline {
     agent any
     parameters {
         choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "KBName", choices: ["KBTesting"], description: "Select KB Name")
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
         string(name: "BringChangesRevisionIds", defaultValue: "None", description: "Commit Numbers to Bring Changes from Upstream Version (None or a ; separated list of commit # (e.g: 1;2;3))")
@@ -13,7 +16,14 @@ pipeline {
         stage("Init") {
             steps {
                 echo "Initializing.."
-            }
+                script {
+                    envName = params.KBEnvironment
+                    utilScript = load "common\\util.groovy"
+                    // globalParameters = utilScript.globalParameters(envName)
+                    parametersScript = load "EnvLocal\\parameters.groovy"
+                    config = parametersScript.getForEnvironment(envName)
+                }
+            }            
         }  
         stage("Open KB") {
             steps {
@@ -38,6 +48,10 @@ pipeline {
         stage("Build All") {
             steps {
                 echo "Building All.."
+                script {
+                    def buildProps = utilScript.getMSBuildParams(config.General)
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+                }
             }
         }
     }
