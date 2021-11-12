@@ -21,10 +21,10 @@ def getForEnvironment(envName) {
     config.General.GX_PROGRAM_DIR = "C:\\Program Files (x86)\\GeneXus\\GeneXus 17U5HF"
 
     // Environment and Working Directory
-    if (envName == "EnvLocal") {
-        config.General.WorkingDirectory = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\KBTesting"
-        config.General.WorkingVersion = "KBTesting"
-    }
+    // if (envName == "EnvLocal") {
+    config.General.WorkingDirectory = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\KBTesting"
+    config.General.WorkingVersion = envName
+    // }
     // else if (envName == "EnvTest") {
     //     config.General.WorkingDirectory = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\KBTesting"
     //     config.General.WorkingVersion = "KBTesting"
