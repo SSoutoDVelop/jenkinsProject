@@ -22,7 +22,7 @@ def getForEnvironment(envName) {
 
     // Environment and Working Directory
     // if (envName == "EnvLocal") {
-    config.General.WorkingDirectory = "C:\\Models\\Knowledge Base\\" + envName 
+    config.General.WorkingDirectory = "C:\\Models\\Knowledge Base\\" 
     config.General.WorkingVersion = envName
     // }
     // else if (envName == "EnvTest") {
