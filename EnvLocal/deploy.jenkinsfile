@@ -6,50 +6,62 @@ def config
 pipeline {
     agent any
     parameters {
+        choice(name: "TEST", choices: ["True", "False"], description: "Test Build")
         choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
         choice(name: "KBName", choices: ["KBTesting"], description: "Select KB Name")
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
-        string(name: "BringChangesRevisionIds", defaultValue: "None", description: "Commit Numbers to Bring Changes from Upstream Version (None or a ; separated list of commit # (e.g: 1;2;3))")
     }
     stages {
-        stage("Init") {
-            steps {
-                echo "Initializing.."
-                script {
-                    envName = params.KBEnvironment
-                    utilScript = load "common\\util.groovy"
-                    // globalParameters = utilScript.globalParameters(envName)
-                    parametersScript = load "EnvLocal\\parameters.groovy"
-                    config = parametersScript.getForEnvironment(envName)
-                }
-            }            
-        }  
-        stage("Open KB") {
-            steps {
-                echo "Opening KB.."
-            }
-        }
-        stage("Set Properties") {
-            steps {
-                echo "Setting Properties.."
-            }
-        }
-        stage("Update KB") {
-            steps {
-                echo "Updating KB.."
-                script {
-                    def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+        if (params.TEST == "False") {
+
+            stage("Init") {
+                steps {
+                    echo "Initializing.."
+                    script {
+                        envName = params.KBEnvironment
+                        utilScript = load "common\\util.groovy"
+                        // globalParameters = utilScript.globalParameters(envName)
+                        parametersScript = load "EnvLocal\\parameters.groovy"
+                        config = parametersScript.getForEnvironment(envName)
+                    }
+                }            
+            }  
+            stage("Open KB") {
+                steps {
+                    echo "Opening KB.."
                 }
             }
-        }
-        stage("Build All") {
-            steps {
-                echo "Building All.."
-                script {
-                    def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+            stage("Set Properties") {
+                steps {
+                    echo "Setting Properties.."
+                }
+            }
+            stage("Update KB") {
+                steps {
+                    echo "Updating KB.."
+                    script {
+                        def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    }
+                }
+            }
+            stage("Build All") {
+                steps {
+                    echo "Building All.."
+                    script {
+                        def buildProps = utilScript.getMSBuildParams(config.General)
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+                    }
+                }
+            }
+        } else {
+            stage("Testing Execution") {
+                steps {
+                    echo "Testing.."
+                    script {
+                        bat cd "C:\\Models" dir
+                    }
                 }
             }
         }
