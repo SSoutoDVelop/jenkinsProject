@@ -48,7 +48,7 @@ def getForEnvironment(envName) {
     config.General.VersionSuffix = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
 
     // Useful directories
-    config.General.EnvironmentRelativePath = "${config.General.WorkingEnvironment}" //${config.General.WorkingVersion}_
+    config.General.EnvironmentRelativePath = "${config.General.WorkingEnvironment}"
     config.General.EnvironmentRootFolder = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
     // config.General.EnvironmentWebFolder = "${config.General.EnvironmentRootFolder}\\web"
     // config.General.EnvironmentMobileFolder = "${config.General.EnvironmentRootFolder}\\mobile"
@@ -71,18 +71,6 @@ def getForEnvironment(envName) {
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
     config.GXServer.GXServerFreezeAfterDeploy = "False"    
-
-    if(envName.equals("EnvLocal")) {
-
-    }
-
-    if(envName.equals("EnvQA")) {
-
-    }
-
-    if(envName.equals("EnvProd")) {
-
-    }
 
     return config
 }

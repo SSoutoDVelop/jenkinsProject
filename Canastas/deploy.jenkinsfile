@@ -1,0 +1,48 @@
+def utilScript
+def globalParameters
+def parametersScript
+def config
+
+pipeline {
+    agent any
+    parameters {
+        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
+        choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
+    }
+    stages {
+        stage("Init") {
+            steps {
+                echo "Initializing.."
+                script {
+                    utilScript = load "common\\util.groovy"
+                    parametersScript = load "${params.KBEnvironment}\\parameters.groovy"
+                    config = parametersScript.getForEnvironment(params.KBEnvironment)
+                }
+            }            
+        }
+        stage("Set Properties") {
+            steps {
+                echo "Setting Properties.."
+            }
+        }
+        stage("Update KB") {
+            steps {
+                echo "Updating KB.."
+                script {
+                    def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                }
+            }
+        }
+        // stage("Build All") {
+        //     steps {
+        //         echo "Building All.."
+        //         script {
+        //             def buildProps = utilScript.getMSBuildParams(config.General)
+        //             bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+        //         }
+        //     }
+        // }
+    }
+}
