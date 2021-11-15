@@ -10,9 +10,9 @@ pipeline {
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
-    environment {
-        TEST_CREDENTIALS = credentials('credentials-genexusserver17')
-    }
+    // environment {
+    //     TEST_CREDENTIALS = credentials('credentials-genexusserver17')
+    // }
     stages {
         stage("Init") {
             steps {
@@ -22,9 +22,6 @@ pipeline {
                     utilScript = load "common\\util.groovy"
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
-                    config.GXServer.GXServerUsername = "${TEST_CREDENTIALS_USR}"
-                    config.GXServer.GXServerPassword = "${TEST_CREDENTIALS_PSW}"
-
                 }
             }            
         }
@@ -38,7 +35,9 @@ pipeline {
                 echo "Updating KB.."
                 script {
                     def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    withCredentials([usernamePassword(credentialsId: 'credentials-genexusserver17', usernameVariable: 'config.GXServer.GXServerUsername', passwordVariable: 'config.GXServer.GXServerPassword')]) {
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    }
                 }
             }
         }
