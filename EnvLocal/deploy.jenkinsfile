@@ -18,7 +18,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     envName = params.KBEnvironment
-                    utilScript = load "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\common\\util.groovy"
+                    utilScript = load "jenkinsProject\\common\\util.groovy"
                     // globalParameters = utilScript.globalParameters(envName)
                     parametersScript = load "EnvLocal\\parameters.groovy"
                     config = parametersScript.getForEnvironment(envName)
@@ -35,14 +35,9 @@ pipeline {
                 echo "Setting Properties.."
             }
         }
-        stage("Bring Changes") {
+        stage("Update KB") {
             steps {
-                echo "Bringin Changes.."
-            }
-        }
-        stage("Commit Changes") {
-            steps {
-                echo "Commiting Changes.."
+                echo "Updating KB.."
             }
         }
         stage("Build All") {
@@ -50,7 +45,7 @@ pipeline {
                 echo "Building All.."
                 script {
                     def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:quiet \"C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\common\\build_kb.msbuild\""
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jenkinsProject\\common\\build_kb.msbuild\""
                 }
             }
         }
