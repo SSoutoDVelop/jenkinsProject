@@ -16,6 +16,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     utilScript = load "common\\util.groovy"
+                    echo credentials("password-genexusserver17")
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
                 }
