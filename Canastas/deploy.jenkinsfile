@@ -17,7 +17,6 @@ pipeline {
         stage("Init") {
             steps {
                 echo "Initializing.."
-                echo "${TEST_CREDENTIALS}"
                 script {
                     utilScript = load "common\\util.groovy"
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
