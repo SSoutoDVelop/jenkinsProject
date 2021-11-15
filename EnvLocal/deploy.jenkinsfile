@@ -18,7 +18,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     envName = params.KBEnvironment
-                    utilScript = load "jenkinsProject\\common\\util.groovy"
+                    utilScript = load "common\\util.groovy"
                     // globalParameters = utilScript.globalParameters(envName)
                     parametersScript = load "EnvLocal\\parameters.groovy"
                     config = parametersScript.getForEnvironment(envName)
@@ -45,7 +45,7 @@ pipeline {
                 echo "Building All.."
                 script {
                     def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jenkinsProject\\common\\build_kb.msbuild\""
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
                 }
             }
         }
