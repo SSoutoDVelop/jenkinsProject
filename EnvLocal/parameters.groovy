@@ -23,7 +23,7 @@ def getForEnvironment(envName) {
     // Environment and Working Directory
     // if (envName == "EnvLocal") {
     config.General.WorkingDirectory = "C:\\Models\\Knowledge Base" 
-    config.General.WorkingVersion = envName
+    config.General.WorkingVersion = "KnowledgeBase"
     // }
     // else if (envName == "EnvTest") {
     //     config.General.WorkingDirectory = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\KBTesting"
