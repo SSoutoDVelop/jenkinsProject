@@ -11,20 +11,24 @@ pipeline {
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
     environment {
-        TEST_PASSWORD = credentials("password-genexusserver17")
+        // TEST_PASSWORD = credentials("password-genexusserver17")
+        utilScript = load "common\\util.groovy"
+        parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
+        config = parametersScript.getForEnvironment(params.KBEnvironment)      
+        config.GXServer.GXServerPassword = credentials("password-genexusserver17")
     }
     stages {
-        stage("Init") {
-            steps {
-                echo "Initializing.."
-                echo TEST_PASSWORD
-                script {
-                    utilScript = load "common\\util.groovy"
-                    parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
-                    config = parametersScript.getForEnvironment(params.KBEnvironment)
-                }
-            }            
-        }
+        // stage("Init") {
+        //     steps {
+        //         echo "Initializing.."
+        //         echo TEST_PASSWORD
+        //         script {
+        //             utilScript = load "common\\util.groovy"
+        //             parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
+        //             config = parametersScript.getForEnvironment(params.KBEnvironment)
+        //         }
+        //     }            
+        // }
         stage("Set Properties") {
             steps {
                 echo "Setting Properties.."
