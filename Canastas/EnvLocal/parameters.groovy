@@ -1,3 +1,6 @@
+def credentials = CredentialsProvider.lookupCredentials(StandardUsernamePasswordCredentials.class, Jenkins.instance);
+def cred = credentials.findResult { it.id == "credentials-genexusserver17" ? it : null }
+
 def getForEnvironment(envName) {
 
     // Configuration root object
@@ -65,8 +68,8 @@ def getForEnvironment(envName) {
 
     // GXServer information
     config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
-    config.GXServer.GXServerUsername = "local\\dvelop"
-    config.GXServer.GXServerPassword = credentials("password-genexusserver17")[0]
+    config.GXServer.GXServerUsername = cred.username
+    config.GXServer.GXServerPassword = cred.password
     config.GXServer.GXServerKB = "Canastas"
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
