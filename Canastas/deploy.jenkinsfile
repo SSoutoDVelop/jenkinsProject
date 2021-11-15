@@ -22,8 +22,8 @@ pipeline {
                     utilScript = load "common\\util.groovy"
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
-                    config.GXServer.GXServerUsername = TEST_CREDENTIALS_USR
-                    config.GXServer.GXServerPassword = TEST_CREDENTIALS.PAS
+                    config.GXServer.GXServerUsername = "${TEST_CREDENTIALS_USR}"
+                    config.GXServer.GXServerPassword = "${TEST_CREDENTIALS_PAS}"
 
                 }
             }            
