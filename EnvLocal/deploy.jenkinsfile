@@ -38,6 +38,10 @@ pipeline {
         stage("Update KB") {
             steps {
                 echo "Updating KB.."
+                script {
+                    def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                }
             }
         }
         stage("Build All") {

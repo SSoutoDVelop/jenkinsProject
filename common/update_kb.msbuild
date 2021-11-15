@@ -1,0 +1,18 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<!-- ##### GET LATEST CHANGES FROM GXSERVER ##### -->
+		<UpdateFromServer ServerUserName="$(GXServerUsername)" ServerPassword="$(GXServerPassword)" VersionName="$(GXServerVersion)" OutputFile="$(GXServerChangelog)" />
+
+	</Target>
+</Project>

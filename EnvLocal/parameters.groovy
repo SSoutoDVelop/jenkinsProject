@@ -22,8 +22,11 @@ def getForEnvironment(envName) {
 
     // Environment and Working Directory
     // if (envName == "EnvLocal") {
-    config.General.WorkingDirectory = "C:\\Models\\Knowledge Base" 
-    config.General.WorkingVersion = "KnowledgeBase" // WorkingVersion is related to the name assigned to the KB
+    config.General.WorkingDirectory = "C:\\Models\\TuRegaloMdP" 
+
+    // WorkingVersion is related to the name assigned to the KB
+    config.General.WorkingVersion = "Canastas" 
+
     // }
     // else if (envName == "EnvTest") {
     //     config.General.WorkingDirectory = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\KBTesting"
@@ -55,6 +58,19 @@ def getForEnvironment(envName) {
 
     // Run Data Load Procedure after deploy
     config.General.RunDataLoad = "True"
+
+    //=========================================//
+    // GENEXUS SERVER CONNECTION CONFIGURATION
+    //=========================================//
+
+    // GXServer information
+    config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
+    config.GXServer.GXServerUsername = "local\\dvelop"
+    config.GXServer.GXServerPassword = "Password1"
+    config.GXServer.GXServerKB = "Canastas"
+    config.GXServer.GXServerVersion = "Canastas"
+    config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
+    config.GXServer.GXServerFreezeAfterDeploy = "False"    
 
     if(envName.equals("EnvLocal")) {
 
