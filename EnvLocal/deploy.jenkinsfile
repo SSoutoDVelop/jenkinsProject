@@ -12,9 +12,9 @@ pipeline {
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
-    stages {
-        if (params.TEST == "False") {
-
+    
+    if (params.TEST == "False") {
+        stages {
             stage("Init") {
                 steps {
                     echo "Initializing.."
@@ -55,7 +55,9 @@ pipeline {
                     }
                 }
             }
-        } else {
+        }
+    } else {
+        stages {
             stage("Testing Execution") {
                 steps {
                     echo "Testing.."
