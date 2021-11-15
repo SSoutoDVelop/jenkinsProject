@@ -10,9 +10,9 @@ pipeline {
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
-    environment {
-        TEST_CREDENTIALS = credentials('credentials-genexusserver17')
-    }
+    // environment {
+    //     TEST_CREDENTIALS = credentials('credentials-genexusserver17')
+    // }
     stages {
         stage("Init") {
             steps {
@@ -21,8 +21,8 @@ pipeline {
                     utilScript = load "common\\util.groovy"
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
-                    config.GXServer.GXServerUsername = TEST_CREDENTIALS_USR
-                    config.GXServer.GXServerPassword = TEST_CREDENTIALS_PSW
+                    // config.GXServer.GXServerUsername = TEST_CREDENTIALS_USR
+                    // config.GXServer.GXServerPassword = TEST_CREDENTIALS_PSW
 
                 }
             }            

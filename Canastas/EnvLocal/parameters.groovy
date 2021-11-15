@@ -1,3 +1,5 @@
+def TEST_CREDENTIALS = credentials('credentials-genexusserver17')
+
 def getForEnvironment(envName) {
 
     // Configuration root object
@@ -65,8 +67,8 @@ def getForEnvironment(envName) {
 
     // GXServer information
     config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
-    config.GXServer.GXServerUsername = "local\\dvelop"
-    config.GXServer.GXServerPassword = "Password1"
+    config.GXServer.GXServerUsername = TEST_CREDENTIALS_USR //"local\\dvelop"
+    config.GXServer.GXServerPassword = TEST_CREDENTIALS_PSW //"Password1"
     config.GXServer.GXServerKB = "Canastas"
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
