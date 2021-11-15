@@ -66,7 +66,7 @@ def getForEnvironment(envName) {
     // GXServer information
     config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
     config.GXServer.GXServerUsername = "local\\dvelop"
-    config.GXServer.GXServerPassword = "Password1"
+    config.GXServer.GXServerPassword = credentials("password-genexusserver17")
     config.GXServer.GXServerKB = "Canastas"
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
