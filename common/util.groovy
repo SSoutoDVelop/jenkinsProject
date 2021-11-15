@@ -5,7 +5,7 @@ def executeMSBuild(file, buildParameters) {
             params += "/p:${p.key}=\"${p.value}\" "
         }
     }
-    return "msbuild.exe ${params} /tv:4.0 /verbosity:normal \"${file}\""
+    return "msbuild.exe ${params} /tv:4.0 /verbosity:quiet \"${file}\""
 }
 
 def getMSBuildParams(dictionary) {
