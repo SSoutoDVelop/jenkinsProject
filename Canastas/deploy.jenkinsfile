@@ -15,7 +15,7 @@ pipeline {
         utilScript = load "common\\util.groovy"
         parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
         config = parametersScript.getForEnvironment(params.KBEnvironment)      
-        config.GXServer.GXServerPassword = @credentials('password-genexusserver17')
+        config.GXServer.GXServerPassword = credentials('password-genexusserver17').ToString()
     }
     stages {
         // stage("Init") {
