@@ -10,10 +10,14 @@ pipeline {
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
+    environment {
+        TEST_CREDENTIALS = credentials('credentials-genexusserver17')
+    }
     stages {
         stage("Init") {
             steps {
                 echo "Initializing.."
+                echo TEST_CREDENTIALS
                 script {
                     utilScript = load "common\\util.groovy"
                     parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"

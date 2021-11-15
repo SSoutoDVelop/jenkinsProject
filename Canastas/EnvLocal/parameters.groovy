@@ -1,20 +1,3 @@
-import jenkins.*
-import jenkins.model.* 
-import hudson.*
-import hudson.model.*
-def jenkinsCredentials = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
-        com.cloudbees.plugins.credentials.Credentials.class,
-        Jenkins.instance,
-        null,
-        null
-);
-for (creds in jenkinsCredentials) {
-    if (jenkinsCredentials.id == "credentials-genexusserver17") {
-        def cred = creds
-        break
-    }
-}
-
 def getForEnvironment(envName) {
 
     // Configuration root object
@@ -82,8 +65,8 @@ def getForEnvironment(envName) {
 
     // GXServer information
     config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
-    config.GXServer.GXServerUsername = cred.username
-    config.GXServer.GXServerPassword = cred.password
+    config.GXServer.GXServerUsername = "local\\dvelop"
+    config.GXServer.GXServerPassword = "Password1"
     config.GXServer.GXServerKB = "Canastas"
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
