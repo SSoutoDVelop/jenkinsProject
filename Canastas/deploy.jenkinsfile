@@ -16,7 +16,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     utilScript = load "common\\util.groovy"
-                    parametersScript = load "${params.KBEnvironment}\\parameters.groovy"
+                    parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
                 }
             }            
