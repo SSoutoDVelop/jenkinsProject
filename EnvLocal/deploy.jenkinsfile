@@ -50,7 +50,7 @@ pipeline {
                 echo "Building All.."
                 script {
                     def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\common\\build_kb.msbuild\""
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:quiet \"C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\common\\build_kb.msbuild\""
                 }
             }
         }
