@@ -56,7 +56,7 @@ def getForEnvironment(envName) {
         config.DeploymentUnits["WebAppDeploy"].DeployWebappName = "CanastasWebApp" 
         config.DeploymentUnits["WebAppDeploy"].DeployProjectName = "CanastasWebApp${config.General.VersionSuffix}" 
         config.DeploymentUnits["WebAppDeploy"].DeployFullPath = "${env.WORKSPACE}\\CanastasWebApp${config.General.VersionSuffix}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployObjectNames = "DeploymentUnit:WebAppDeploy"        
+        config.DeploymentUnits["WebAppDeploy"].DeployObjectNames = "DeploymentUnit:DeploymentUnit"        
 
     }
 
