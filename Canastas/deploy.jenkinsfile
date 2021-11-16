@@ -77,7 +77,9 @@ pipeline {
                     // }
 
                     bat "cd ${config.General.GitFolder}\\"
-                    bat "git"
+                    bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                    bat "git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
+                    bat "git push"
                 }
             }
         }             
