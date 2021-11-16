@@ -33,11 +33,13 @@ pipeline {
             steps {
                 echo "Updating KB.."
                 script {
+
                     def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
+                    
                     withCredentials([usernamePassword(
-                        credentialsId: 'credentials-genexusserver17', 
-                        usernameVariable: 'config.GXServer.GXServerUsername', 
-                        passwordVariable: 'config.GXServer.GXServerPassword')]) {
+                        credentialsId: "credentials-genexusserver17", 
+                        usernameVariable: "config.GXServer.GXServerUsername", 
+                        passwordVariable: "config.GXServer.GXServerPassword")]) {
 
                         bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
                         
