@@ -10,6 +10,10 @@ def copyFile(source, target) {
     return "copy \"${source}\" \"${target}\""
 }
 
+def gitWebApp(webapp) {
+    return "git pull"
+}
+
 // def pushGitWebApp (folder) {
 
 // }
