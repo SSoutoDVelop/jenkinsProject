@@ -73,13 +73,13 @@ pipeline {
                     config.DeploymentUnits.each { du ->
                         if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
                             bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
-                        }
-
-                        bat "cd ${config.General.GitFolder}\\"
-                        bat "git add ."
-                        bat "git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
-                        bat "git push"                        
+                        }                       
                     }
+
+                    bat "cd ${config.General.GitFolder}\\"
+                    bat "git add ."
+                    bat "git commit -am 'testing'"
+                    bat "git push" 
 
 
                 }
