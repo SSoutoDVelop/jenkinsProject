@@ -85,7 +85,7 @@ pipeline {
 
                 dir("${config.General.GitFolder}\\") {
 
-                    sh "git"
+                    bat "git"
 
                 }
             }
