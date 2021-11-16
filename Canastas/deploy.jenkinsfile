@@ -75,9 +75,10 @@ pipeline {
                             bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
                         }
 
-                        bat "${config.General.GitFolder}\\ git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
-                        bat "${config.General.GitFolder}\\ git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
-                        bat "${config.General.GitFolder}\\ git push"                        
+                        bat "cd ${config.General.GitFolder}\\"
+                        bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                        bat "git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
+                        bat "git push"                        
                     }
 
 
