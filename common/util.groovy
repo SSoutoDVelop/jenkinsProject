@@ -11,7 +11,9 @@ def copyFile(source, target) {
 }
 
 def gitWebApp(webapp) {
-    return "git pull"
+    "cd C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest\\"
+    
+    return "git"
 }
 
 // def pushGitWebApp (folder) {
