@@ -65,18 +65,8 @@ def getForEnvironment(envName) {
 
     // GXServer information
     config.GXServer.GXServerUrl = "http://gxserver.montesdelplata.com.uy/genexusserver17"
-
-    withCredentials([usernamePassword(
-        credentialsId: 'credentials-genexusserver17', 
-        usernameVariable: 'USERNAME', 
-        passwordVariable: 'PASSWORD')]) {
-
-        config.GXServer.GXServerUsername = USERNAME
-        config.GXServer.GXServerPassword = PASSWORD        
-    }    
-    
-    // config.GXServer.GXServerUsername = ""
-    // config.GXServer.GXServerPassword = ""
+    config.GXServer.GXServerUsername = ""
+    config.GXServer.GXServerPassword = ""
     config.GXServer.GXServerKB = "Canastas"
     config.GXServer.GXServerVersion = "Canastas"
     config.GXServer.GXServerChangelog = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
