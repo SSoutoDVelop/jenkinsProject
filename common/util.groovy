@@ -15,12 +15,12 @@ def gitWebApp(path, webapp, env) {
     def log = ""
 
     "cd ${path}"
-    "git checkout ${env}"
-    "git add ${webapp}"
-    "git commit -am 'WebApp'"
-    "git push ${env}"
+    // "git checkout ${env}"
+    // "git add ${webapp}"
+    // "git commit -am 'WebApp'"
+    // "git push ${env}"
 
-    return 'log'
+    return "git"
 }
 
 // def pushGitWebApp (folder) {
