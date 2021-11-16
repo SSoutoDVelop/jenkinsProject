@@ -11,9 +11,9 @@ def copyFile(source, target) {
 }
 
 def gitWebApp(path, webapp, env) {
+
     "cd ${path}"
     "git checkout ${env}"
-    "git init"
     "git add ${webapp}"
     "git commit -am 'WebApp'"
     "git push ${env}"
