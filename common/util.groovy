@@ -10,10 +10,12 @@ def copyFile(source, target) {
     return "copy \"${source}\" \"${target}\""
 }
 
-def gitWebApp(webapp) {
-    "cd C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest\\"
+def gitWebApp(path, webapp) {
+    "cd ${path}"
+    "git add ${webapp}"
+    "git commit -am 'testing'"
     
-    return "git"
+    return "git push"
 }
 
 // def pushGitWebApp (folder) {
