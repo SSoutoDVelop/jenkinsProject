@@ -35,18 +35,18 @@ pipeline {
                 script {
 
                     def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
-                    
-                    withCredentials([usernamePassword(
-                        credentialsId: 'credentials-genexusserver17', 
-                        usernameVariable: 'USERNAME', 
-                        passwordVariable: 'PASSWORD')]) {
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    // withCredentials([usernamePassword(
+                    //     credentialsId: 'credentials-genexusserver17', 
+                    //     usernameVariable: 'USERNAME', 
+                    //     passwordVariable: 'PASSWORD')]) {
 
-                        config.GXServer.GXServerUsername = USERNAME
-                        config.GXServer.GXServerPassword = PASSWORD
+                    //     config.GXServer.GXServerUsername = USERNAME
+                    //     config.GXServer.GXServerPassword = PASSWORD
 
-                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    //     bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
                         
-                    }
+                    // }
                 }
             }
         }
