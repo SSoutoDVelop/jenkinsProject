@@ -76,7 +76,7 @@ pipeline {
                         }
                     }
 
-                    bat "cd ${config.General.GitFolder}"
+                    bat "cd ${config.General.GitFolder}\\"
                 }
             }
         }             
