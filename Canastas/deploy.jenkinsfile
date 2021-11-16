@@ -26,26 +26,26 @@ pipeline {
                 echo "Setting Properties.."
             }
         }
-        stage("Update KB") {
-            steps {
-                echo "Updating KB.."
-                script {
+        // stage("Update KB") {
+        //     steps {
+        //         echo "Updating KB.."
+        //         script {
 
-                    withCredentials([usernamePassword(
-                        credentialsId: 'credentials-genexusserver17', 
-                        usernameVariable: 'USERNAME', 
-                        passwordVariable: 'PASSWORD')]) {
+        //             withCredentials([usernamePassword(
+        //                 credentialsId: 'credentials-genexusserver17', 
+        //                 usernameVariable: 'USERNAME', 
+        //                 passwordVariable: 'PASSWORD')]) {
 
-                        config.GXServer.GXServerUsername = USERNAME
-                        config.GXServer.GXServerPassword = PASSWORD
+        //                 config.GXServer.GXServerUsername = USERNAME
+        //                 config.GXServer.GXServerPassword = PASSWORD
                              
-                        def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
-                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
+        //                 def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
+        //                 bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
                         
-                    }     
-                }
-            }
-        }
+        //             }     
+        //         }
+        //     }
+        // }
         // stage("Build All") {
         //     steps {
         //         echo "Building All.."
@@ -55,18 +55,18 @@ pipeline {
         //         }
         //     }
         // }
-        stage("Package Deployment Units") {
-            steps {
-                echo "Packing Deployment Units.."
-                script {                    
-                    config.DeploymentUnits.each { du ->
-                        def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"common\\prepare_deploy.msbuild\""
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
-                    }
-                }
-            }
-        }
+        // stage("Package Deployment Units") {
+        //     steps {
+        //         echo "Packing Deployment Units.."
+        //         script {                    
+        //             config.DeploymentUnits.each { du ->
+        //                 def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
+        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"common\\prepare_deploy.msbuild\""
+        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
+        //             }
+        //         }
+        //     }
+        // }
         stage("Publish WebApps") {
             steps {
                 script {   
@@ -76,7 +76,7 @@ pipeline {
                         }
                     }
 
-                    sh("${config.General.GitFolder} git")
+                    bat "cd ${config.General.GitFolder}"
                 }
             }
         }             
