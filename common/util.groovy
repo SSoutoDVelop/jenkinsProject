@@ -12,13 +12,13 @@ def copyFile(source, target) {
 
 def gitWebApp(path, webapp, env) {
 
-    // "cd ${path}"
-    // "git checkout ${env}"
-    // "git add ${webapp}"
-    // "git commit -am 'WebApp'"
+    "cd ${path}"
+    "git checkout ${env}"
+    "git add ${webapp}"
+    "git commit -am 'WebApp'"
     // "git push ${env}"
-    
-    return null
+
+    return "git push ${env}"
 }
 
 // def pushGitWebApp (folder) {
