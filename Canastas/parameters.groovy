@@ -38,6 +38,8 @@ def getForEnvironment(envName) {
         config.General.VersionSuffix = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
         config.General.ForceRebuild = "True"  
         config.General.RunDataLoad = "True" 
+        config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest"
+        config.General.GitEnvironment = "qa"
 
         //================================//
         // DEPLOYMENT UNITS CONFIGURATION
@@ -65,7 +67,6 @@ def getForEnvironment(envName) {
     config.General.EnvironmentRootFolder = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
     config.General.EnvironmentWebFolder = "${config.General.EnvironmentRootFolder}\\web"
     config.General.EnvironmentMobileFolder = "${config.General.EnvironmentRootFolder}\\mobile"
-    config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest"
 
     return config
 }
