@@ -1,0 +1,65 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">   
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<ItemGroup>
+			<DeployProperty Include="UseAppServerDataSource">
+				<PropertyValue>$(DeployUseAppServerDatasource)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="ApplicationKey">
+				<PropertyValue>$(DeployApplicationKey)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="SiteKey">
+				<PropertyValue>$(DeploySiteKey)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="TargetJRE">
+				<PropertyValue>$(DeployTargetJRE)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="AppName">
+				<PropertyValue>$(DeployWebappName)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="PackageFormat">
+				<PropertyValue>$(DeployPackageFormat)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="TimeStamp">
+				<PropertyValue>$(DeployTimeStamp)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="DeploymentUnit">
+				<PropertyValue>$(DeploymentUnit)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="DeployTarget">
+				<PropertyValue>$(DeployTargetId)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="ApplicationServer">
+				<PropertyValue>$(DeployApplicationServer)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="KBPath">
+				<PropertyValue>$(WorkingDirectory)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="RestSpecFolder">
+				<PropertyValue>$(WorkingDirectory)\GXRESTSPC\$(WorkingVersion)</PropertyValue>
+			</DeployProperty>
+			<DeployProperty Include="IncludeGAMBackend">
+				<PropertyValue>$(DeployIncludeGAM)</PropertyValue>
+			</DeployProperty>
+		</ItemGroup>        
+
+        <PropertyGroup>
+            <ProjectFile></ProjectFile>
+        </PropertyGroup>
+
+		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" >
+			<Output TaskParameter="ProjectFile" PropertyName="ProjectFile"/>
+		</CreateDeployProject>
+
+	</Target>
+</Project>

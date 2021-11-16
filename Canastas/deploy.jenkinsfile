@@ -10,16 +10,13 @@ pipeline {
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }
-    // environment {
-    //     TEST_CREDENTIALS = credentials('credentials-genexusserver17')
-    // }
     stages {
         stage("Init") {
             steps {
                 echo "Initializing.."
                 script {
                     utilScript = load "common\\util.groovy"
-                    parametersScript = load "Canastas\\${params.KBEnvironment}\\parameters.groovy"
+                    parametersScript = load "Canastas\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
                 }
             }            
@@ -45,17 +42,7 @@ pipeline {
                         def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
                         bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
                         
-                    }                    
-
-
-                    // withCredentials([usernamePassword(
-                    //     credentialsId: 'credentials-genexusserver17', 
-                    //     usernameVariable: 'USERNAME', 
-                    //     passwordVariable: 'PASSWORD')]) {
-
-                    //     bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
-                        
-                    // }
+                    }     
                 }
             }
         }
@@ -68,5 +55,17 @@ pipeline {
         //         }
         //     }
         // }
+        stage("Package Deployment Units") {
+            steps {
+                echo "Packing Deployment Units.."
+                script {                    
+                    config.DeploymentUnits.each { du ->
+                        def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
+                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"common\\prepare_deploy.msbuild\""
+                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
+                    }
+                }
+            }
+        }        
     }
 }
