@@ -77,7 +77,7 @@ pipeline {
                     }
                 }
                 dir("${config.General.GitFolder}") {
-                    sh "git commit -am 'testing'"
+                    sh 'git'
                 }
             }
         }             
