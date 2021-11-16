@@ -40,12 +40,13 @@ pipeline {
                         passwordVariable: 'PASSWORD')]) {
 
                         config.GXServer.GXServerUsername = USERNAME
-                        config.GXServer.GXServerPassword = PASSWORD                       
+                        config.GXServer.GXServerPassword = PASSWORD
+                             
+                        def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
                         
                     }                    
 
-                    def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
 
                     // withCredentials([usernamePassword(
                     //     credentialsId: 'credentials-genexusserver17', 
