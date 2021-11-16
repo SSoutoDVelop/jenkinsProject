@@ -77,7 +77,7 @@ pipeline {
                     }
                 }
                 dir("${config.General.GitFolder}") {
-                    sh "${config.General.GitFolder}"
+                    bat git pull
                 }
             }
         }             
