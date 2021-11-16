@@ -55,39 +55,39 @@ pipeline {
         //         }
         //     }
         // }
-        stage("Package Deployment Units") {
-            steps {
-                echo "Packing Deployment Units.."
-                script {                    
-                    config.DeploymentUnits.each { du ->
-                        def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"common\\prepare_deploy.msbuild\""
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
-                    }
-                }
-            }
-        }
+        // stage("Package Deployment Units") {
+        //     steps {
+        //         echo "Packing Deployment Units.."
+        //         script {                    
+        //             config.DeploymentUnits.each { du ->
+        //                 def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
+        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"common\\prepare_deploy.msbuild\""
+        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
+        //             }
+        //         }
+        //     }
+        // }
         stage("Publish WebApps") {
             steps {
                 script {   
-                    config.DeploymentUnits.each { du ->
-                        if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
-                            bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
-                        }
+                    // config.DeploymentUnits.each { du ->
+                    //     if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
+                    //         bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
+                    //     }
 
-                        // bat utilScript.gitWebApp("${config.General.GitFolder}", "${config.DeploymentUnits[du.key].DeployWebappName}.war", config.General.GitEnvironment)
-                        // bat "cd ${config.General.GitFolder}\\ git"
-                        // bat "cd ${config.General.GitFolder}\\ git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
-                        // bat "cd ${config.General.GitFolder}\\ git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
-                        // bat "cd ${config.General.GitFolder}\\ git push"    
-                        dir("${config.General.GitFolder}\\") {
+                    //     // bat utilScript.gitWebApp("${config.General.GitFolder}", "${config.DeploymentUnits[du.key].DeployWebappName}.war", config.General.GitEnvironment)
+                    //     // bat "cd ${config.General.GitFolder}\\ git"
+                    //     // bat "cd ${config.General.GitFolder}\\ git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                    //     // bat "cd ${config.General.GitFolder}\\ git commit -am '${config.DeploymentUnits[du.key].DeployProjectName}'"
+                    //     // bat "cd ${config.General.GitFolder}\\ git push"                                               
+                    // }
+                    dir("${config.General.GitFolder}\\") {
 
-                            bat "git checkout ${config.General.GitEnvironment}"
-                            // bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
-                            // bat "git commit -am ''"
+                        bat "git checkout ${config.General.GitEnvironment}"
+                        // bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                        // bat "git commit -am ''"
 
-                        }                                            
-                    }
+                    }                     
                 }
             }
         }             
