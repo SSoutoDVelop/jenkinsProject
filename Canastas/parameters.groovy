@@ -65,7 +65,7 @@ def getForEnvironment(envName) {
     config.General.EnvironmentRootFolder = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
     config.General.EnvironmentWebFolder = "${config.General.EnvironmentRootFolder}\\web"
     config.General.EnvironmentMobileFolder = "${config.General.EnvironmentRootFolder}\\mobile"
-    config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\Git"
+    config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest"
 
     return config
 }
