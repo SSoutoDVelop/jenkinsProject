@@ -70,11 +70,11 @@ pipeline {
         stage("Publish WebApps") {
             steps {
                 script {   
-                    config.DeploymentUnits.each { du ->
-                        if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
-                            bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
-                        }
-                    }
+                    // config.DeploymentUnits.each { du ->
+                    //     if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
+                    //         bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
+                    //     }
+                    // }
 
                     bat "cd ${config.General.GitFolder}\\"
                 }
