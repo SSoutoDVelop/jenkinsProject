@@ -41,6 +41,9 @@ pipeline {
                         usernameVariable: "config.GXServer.GXServerUsername", 
                         passwordVariable: "config.GXServer.GXServerPassword")]) {
 
+                        echo config.GXServer.GXServerUsername
+                        echo config.GXServer.GXServerPassword
+
                         bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
                         
                     }
