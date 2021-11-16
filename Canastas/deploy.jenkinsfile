@@ -83,8 +83,8 @@ pipeline {
                         dir("${config.General.GitFolder}\\") {
 
                             bat "git checkout ${config.General.GitEnvironment}"
-                            bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
-                            bat "git commit -am ''"
+                            // bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                            // bat "git commit -am ''"
 
                         }                                            
                     }
