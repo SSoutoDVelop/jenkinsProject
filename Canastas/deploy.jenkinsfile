@@ -75,9 +75,8 @@ pipeline {
                             bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
                         }
                     }
-                }
-                dir("${config.General.GitFolder}") {
-                    sh 'git'
+
+                    sh("${config.General.GitFolder} git")
                 }
             }
         }             
