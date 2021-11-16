@@ -45,6 +45,7 @@ def getForEnvironment(envName) {
 
         config.DeploymentUnits["WebAppDeploy"] = [:]
         config.DeploymentUnits["WebAppDeploy"].DeployTargetId = "LOCAL" 
+        config.DeploymentUnits["WebAppDeploy"].DeployApplicationCompiler = "JAVA" 
         config.DeploymentUnits["WebAppDeploy"].DeploySelectedObjectsOnly = "False"
         config.DeploymentUnits["WebAppDeploy"].DeployApplicationServer = "Tomcat 8.x"
         config.DeploymentUnits["WebAppDeploy"].DeployUseAppServerDatasource = "False" 
@@ -53,9 +54,9 @@ def getForEnvironment(envName) {
         config.DeploymentUnits["WebAppDeploy"].DeployPackageFormat = "Automatic" 
         config.DeploymentUnits["WebAppDeploy"].DeployTimeStamp = "${env.BUILD_TIMESTAMP}"
         config.DeploymentUnits["WebAppDeploy"].DeployFileFullPath = "${env.WORKSPACE}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployWebappName = "CanastasWebApp" 
-        config.DeploymentUnits["WebAppDeploy"].DeployProjectName = "CanastasWebApp${config.General.VersionSuffix}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployFullPath = "${env.WORKSPACE}\\CanastasWebApp${config.General.VersionSuffix}" 
+        config.DeploymentUnits["WebAppDeploy"].DeployWebappName = "canastas" 
+        config.DeploymentUnits["WebAppDeploy"].DeployProjectName = "canastas${config.General.VersionSuffix}" 
+        config.DeploymentUnits["WebAppDeploy"].DeployFullPath = "${env.WORKSPACE}\\canastas${config.General.VersionSuffix}" 
         config.DeploymentUnits["WebAppDeploy"].DeployObjectNames = "DeploymentUnit:DeploymentUnit"        
 
     }
@@ -64,6 +65,7 @@ def getForEnvironment(envName) {
     config.General.EnvironmentRootFolder = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
     config.General.EnvironmentWebFolder = "${config.General.EnvironmentRootFolder}\\web"
     config.General.EnvironmentMobileFolder = "${config.General.EnvironmentRootFolder}\\mobile"
+    config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\jenkinsProject\\Git"
 
     return config
 }
