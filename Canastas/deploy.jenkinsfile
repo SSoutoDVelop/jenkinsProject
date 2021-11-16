@@ -77,7 +77,7 @@ pipeline {
                     }
                 }
                 dir("${config.General.GitFolder}") {
-                    bat utilScript.gitWebApp("${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
+                    sh "git commit -am 'testing'"
                 }
             }
         }             
