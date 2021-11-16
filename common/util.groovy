@@ -14,9 +14,9 @@ def gitWebApp(path, webapp, env) {
 
     "cd ${path}"
     "git checkout ${env}"
-    "git add ${webapp}"
-    "git commit -am 'WebApp'"
-    "git push ${env}"
+    // "git add ${webapp}"
+    // "git commit -am 'WebApp'"
+    // "git push ${env}"
     
     return null
 }
