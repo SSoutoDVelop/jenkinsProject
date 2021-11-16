@@ -62,6 +62,8 @@ def getForEnvironment(envName) {
 
     config.General.EnvironmentRelativePath = "${config.General.WorkingEnvironment}"
     config.General.EnvironmentRootFolder = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
+    config.General.EnvironmentWebFolder = "${config.General.EnvironmentRootFolder}\\web"
+    config.General.EnvironmentMobileFolder = "${config.General.EnvironmentRootFolder}\\mobile"
 
     return config
 }
