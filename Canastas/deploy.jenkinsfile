@@ -76,7 +76,7 @@ pipeline {
                         }
                     }
                 }
-                dir(${config.General.GitFolder}) {
+                dir("${config.General.GitFolder}") {
                     sh "${config.General.GitFolder}"
                 }
             }
