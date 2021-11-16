@@ -15,8 +15,9 @@ def gitWebApp(path, webapp, env) {
     "git checkout ${env}"
     "git add ${webapp}"
     "git commit -am 'testing'"
+    "git push ${env}"
     
-    return "git push HEAD:${env}"
+    return null
 }
 
 // def pushGitWebApp (folder) {
