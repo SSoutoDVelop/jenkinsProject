@@ -37,9 +37,9 @@ pipeline {
                     def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
                     
                     withCredentials([usernamePassword(
-                        credentialsId: "credentials-genexusserver17", 
-                        usernameVariable: "config.GXServer.GXServerUsername", 
-                        passwordVariable: "config.GXServer.GXServerPassword")]) {
+                        credentialsId: 'credentials-genexusserver17', 
+                        usernameVariable: 'config.GXServer.GXServerUsername', 
+                        passwordVariable: 'config.GXServer.GXServerPassword')]) {
 
                         echo config.GXServer.GXServerUsername
                         echo config.GXServer.GXServerPassword
