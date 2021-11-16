@@ -83,7 +83,7 @@ pipeline {
                     }
                 }
 
-                dir("${config.General.GitFolder}") {
+                dir("${config.General.GitFolder}\\") {
 
                     sh "git"
 
