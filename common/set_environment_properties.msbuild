@@ -1,0 +1,31 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<!-- ##### SET SECURITY PROPERTIES ##### -->
+		<SetEnvironmentProperty Condition="'$(GAMRepositoryId)' != ''" Name="IntegratedSecurityRepositoryId" Value="$(GAMRepositoryId)"/>
+		<SetEnvironmentProperty Condition="'$(GAMAdminUsername)' != ''" Name="IntegratedSecurityAdministratorUserName" Value="$(GAMAdminUsername)"/>
+		<SetEnvironmentProperty Condition="'$(GAMAdminPassword)' != ''" Name="IntegratedSecurityAdministratorUserPassword" Value="$(GAMAdminPassword)"/>
+		<SetEnvironmentProperty Condition="'$(GAMConnectionUsername)' != ''" Name="IntegratedSecurityConnectionUserName" Value="$(GAMConnectionUsername)"/>
+		<SetEnvironmentProperty Condition="'$(GAMConnectionPassword)' != ''" Name="IntegratedSecurityConnectionUserPassword" Value="$(GAMConnectionPassword)"/>
+		<SetEnvironmentProperty Condition="'$(UseEncryption)' != ''" Name="USE_ENCRYPTION" Value="$(UseEncryption)"/>
+		<SetEnvironmentProperty Condition="'$(HttpProtocol)' != ''" Name="HTTP_PROTOCOL" Value="$(HttpProtocol)"/>
+		<SetEnvironmentProperty Condition="'$(TargetPath)' != ''" Name="TargetPath" Value="$(TargetPath)"/>		
+
+		<!-- ##### SET REORGANIZATION PROPERTIES ##### -->
+		<SetEnvironmentProperty Condition="'$(ReorganizeGamDatabase)' != ''" Name="ReorganizeGamDatabase" Value="$(ReorganizeGamDatabase)"/>
+
+		<!-- ##### SET GOOGLE API KEY ##### -->
+		<SetEnvironmentProperty Condition="'$(GoogleApiKey)' != ''" Name="GoogleApiKey" Value="$(GoogleApiKey)"/>		
+
+	</Target>
+</Project>

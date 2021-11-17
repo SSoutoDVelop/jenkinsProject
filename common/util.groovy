@@ -19,8 +19,4 @@ def gitWebApp(env, webapp, comment) {
     return "git push"
 }
 
-// def pushGitWebApp (folder) {
-
-// }
-
 return this
