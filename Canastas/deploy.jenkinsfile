@@ -77,10 +77,11 @@ pipeline {
 
                             dir("${config.General.GitFolder}\\") {
 
-                                bat "git checkout ${config.General.GitEnvironment}"
-                                bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
-                                bat "git commit -am '${config.DeploymentUnits[du.key].DeployFullPath}'"
-                                bat "git push"
+                                bat utilScript.gitWebApp(config.General.GitEnvironment, "${config.DeploymentUnits[du.key].DeployWebappName}.war", config.DeploymentUnits[du.key].DeployFullPath)
+                                // bat "git checkout ${config.General.GitEnvironment}"
+                                // bat "git add ${config.DeploymentUnits[du.key].DeployWebappName}.war"
+                                // bat "git commit -am '${config.DeploymentUnits[du.key].DeployFullPath}'"
+                                // bat "git push"
 
                             }                             
                         }                                          

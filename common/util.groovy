@@ -10,17 +10,13 @@ def copyFile(source, target) {
     return "copy \"${source}\" \"${target}\""
 }
 
-def gitWebApp(path, webapp, env) {
+def gitWebApp(env, webapp, comment) {
 
-    def log = ""
+    bat "git checkout ${env}"
+    bat "git add ${webapp}"
+    bat "git commit -am '${comment}'"    
 
-    // "cd ${path}"
-    // "git checkout ${env}"
-    // "git add ${webapp}"
-    // "git commit -am 'WebApp'"
-    // "git push ${env}"
-
-    return "cd ${path}"
+    return "git push"
 }
 
 // def pushGitWebApp (folder) {

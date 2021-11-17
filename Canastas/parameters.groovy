@@ -38,8 +38,7 @@ def getForEnvironment(envName) {
         config.General.VersionSuffix = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
         config.General.ForceRebuild = "True"  
         config.General.RunDataLoad = "True" 
-        config.General.GitFolder = "C:\\Users\\ssouto\\Desktop\\Proyectos\\Jenkins\\GitTest"
-        config.General.GitEnvironment = "qa"
+        config.General.WebAppName = "canastas"
 
         //================================//
         // DEPLOYMENT UNITS CONFIGURATION
@@ -56,10 +55,20 @@ def getForEnvironment(envName) {
         config.DeploymentUnits["WebAppDeploy"].DeployPackageFormat = "Automatic" 
         config.DeploymentUnits["WebAppDeploy"].DeployTimeStamp = "${env.BUILD_TIMESTAMP}"
         config.DeploymentUnits["WebAppDeploy"].DeployFileFullPath = "${env.WORKSPACE}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployWebappName = "canastas" 
-        config.DeploymentUnits["WebAppDeploy"].DeployProjectName = "canastas${config.General.VersionSuffix}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployFullPath = "${env.WORKSPACE}\\canastas${config.General.VersionSuffix}" 
-        config.DeploymentUnits["WebAppDeploy"].DeployObjectNames = "DeploymentUnit:DeploymentUnit"        
+        config.DeploymentUnits["WebAppDeploy"].DeployWebappName = config.General.WebAppName
+        config.DeploymentUnits["WebAppDeploy"].DeployProjectName = "${config.General.WebAppName}${config.General.VersionSuffix}" 
+        config.DeploymentUnits["WebAppDeploy"].DeployFullPath = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
+        config.DeploymentUnits["WebAppDeploy"].DeployObjectNames = "DeploymentUnit:DeploymentUnit"  
+
+        //================================//
+        // GIT CONFIGURATION
+        //================================//    
+
+        config.General.GitEnvironment = "qa"            
+
+        withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
+            config.General.GitFolder = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
+        }
 
     }
 
