@@ -37,20 +37,7 @@ def getForEnvironment(envName) {
     config.DeploymentUnits["WebAppDeploy"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
     config.DeploymentUnits["WebAppDeploy"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
     config.DeploymentUnits["WebAppDeploy"].DeployObjectNames            = "DeploymentUnit:DeploymentUnit"   
-
-    //=========================================//
-    // PATHING CONFIGURATION
-    //=========================================//    
-
-    config.General.EnvironmentRelativePath  = "${config.General.WorkingEnvironment}"
-    config.General.EnvironmentRootFolder    = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
-    config.General.EnvironmentWebFolder     = "${config.General.EnvironmentRootFolder}\\web"
-    config.General.EnvironmentMobileFolder  = "${config.General.EnvironmentRootFolder}\\mobile"
-
-    withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
-        config.General.GitFolder            = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
-    }       
-    
+  
     if(envName.equals("EnvLocal")) {
 
         //=======================//
@@ -80,7 +67,18 @@ def getForEnvironment(envName) {
 
     }
 
-   
+    //=========================================//
+    // PATHING CONFIGURATION
+    //=========================================//    
+
+    config.General.EnvironmentRelativePath  = "${config.General.WorkingEnvironment}"
+    config.General.EnvironmentRootFolder    = "${config.General.WorkingDirectory}\\${config.General.EnvironmentRelativePath}"
+    config.General.EnvironmentWebFolder     = "${config.General.EnvironmentRootFolder}\\web"
+    config.General.EnvironmentMobileFolder  = "${config.General.EnvironmentRootFolder}\\mobile"
+
+    withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
+        config.General.GitFolder            = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
+    }        
 
     //=========================================//
     // GENEXUS SERVER CONNECTION CONFIGURATION
