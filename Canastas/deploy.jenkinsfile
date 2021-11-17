@@ -24,10 +24,10 @@ pipeline {
         stage("Set Properties") {
             steps {
                 echo "Setting Properties.."
-                // script {
-                //     def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
-                //     bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
-                // }
+                script {
+                    def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
+                    bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+                }
             }
         }
         stage("Update KB") {
