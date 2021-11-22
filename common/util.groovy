@@ -16,7 +16,7 @@ def cloneRepo(env, gitEnv, name) {
 
         case "EnvLocal":
 
-            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/canastas.git ${name}_${gitEnv}"
+            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/canastas.git GitTest\\${name}_${gitEnv}"
 
             break
 
