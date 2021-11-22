@@ -10,21 +10,19 @@ def copyFile(source, target) {
     return "copy \"${source}\" \"${target}\""
 }
 
-def cloneRepo(env, gitEnv) {
+def cloneRepo(env, gitEnv, name) {
 
     switch (env) {
 
         case "EnvLocal":
 
-            "cd.."
-            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/GitTest.git"
+            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/canastas.git ${name}_${gitEnv}"
 
             break
 
         case "EnvStable" || "EnvRelease":
 
-            "cd.."
-            return "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git"
+            return "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git ${name}_${gitEnv}"
 
             break
 

@@ -79,7 +79,7 @@ pipeline {
 
                             dir("${config.General.GitFolder}\\") {
 
-                                bat utilScript.cloneRepo(params.KBEnvironment, config.General.GitEnvironment)                                
+                                bat utilScript.cloneRepo(params.KBEnvironment, config.General.GitEnvironment, config.General.WebAppName)                                
                             
                                 bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
                                 "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
