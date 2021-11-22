@@ -32,10 +32,10 @@ def cloneRepo(env, gitEnv, name) {
 
 def gitWebApp(env, webapp, comment) {
 
-    return "git checkout ${env}"
-    return "git add ${webapp}"
-    return "git commit -am '${comment}'"    
-    return "git push"
+    "git checkout ${env}"
+    "git add ${webapp}"
+    "git commit -am '${comment}'"    
+    "git push"
 }
 
 return this
