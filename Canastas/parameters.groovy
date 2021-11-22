@@ -141,7 +141,7 @@ def getForEnvironment(envName) {
 
     withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
         config.Git.GitFolder    = "${path}"
-        config.Git.GitEnvFolder = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
+        config.Git.GitEnvFolder = "${path}${config.General.WebAppName}_${config.Git.GitEnvironment}"
     }        
 
     //=========================================//
