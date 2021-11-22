@@ -4,7 +4,7 @@ def parametersScript
 def config
 
 pipeline {
-    agent { label "nodo-informx" }
+    agent any
     options { buildDiscarder(logRotator(numToKeepStr: "15")) }
     parameters {
         choice(name: "KBEnvironment",choices: ["EnvLocal", "EnvStable", "EnvRelease"],description: "Select KB Environment to Update")
