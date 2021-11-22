@@ -79,10 +79,6 @@ pipeline {
 
                             dir("${config.General.GitFolder}\\") {
 
-                                if(!fileExists("/")) {
-
-                                }
-
                                 bat utilScript.cloneRepo(params.KBEnvironment, config.General.GitEnvironment)                                
                             
                                 bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
