@@ -21,44 +21,44 @@ pipeline {
                 }
             }            
         }
-        // stage("Update KB") {
-        //     steps {
-        //         echo "Updating KB.."
-        //         script {
+        stage("Update KB") {
+            steps {
+                echo "Updating KB.."
+                script {
 
-        //             withCredentials([usernamePassword(
-        //                 credentialsId: 'credentials-genexusserver17', 
-        //                 usernameVariable: 'USERNAME', 
-        //                 passwordVariable: 'PASSWORD')]) {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'credentials-genexusserver17', 
+                        usernameVariable: 'USERNAME', 
+                        passwordVariable: 'PASSWORD')]) {
 
-        //                 config.GXServer.GXServerUsername = USERNAME
-        //                 config.GXServer.GXServerPassword = PASSWORD
+                        config.GXServer.GXServerUsername = USERNAME
+                        config.GXServer.GXServerPassword = PASSWORD
                              
-        //                 def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
-        //                 bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
+                        def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
                         
-        //             }     
-        //         }
-        //     }
-        // }
-        // stage("Set Properties") {
-        //     steps {
-        //         echo "Setting Properties.."
-        //         script {
-        //             def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
-        //             bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
-        //         }
-        //     }
-        // }
-        // stage("Build All") {
-        //     steps {
-        //         echo "Building All.."
-        //         script {
-        //             def buildProps = utilScript.getMSBuildParams(config.General)
-        //             bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
-        //         }
-        //     }
-        // }
+                    }     
+                }
+            }
+        }
+        stage("Set Properties") {
+            steps {
+                echo "Setting Properties.."
+                script {
+                    def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
+                    bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+                }
+            }
+        }
+        stage("Build All") {
+            steps {
+                echo "Building All.."
+                script {
+                    def buildProps = utilScript.getMSBuildParams(config.General)
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+                }
+            }
+        }
         stage("Package Deployment Units") {
             steps {
                 echo "Packing Deployment Units.."
