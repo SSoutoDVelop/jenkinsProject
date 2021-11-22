@@ -1,5 +1,4 @@
 def utilScript
-def globalParameters
 def parametersScript
 def config
 
@@ -15,8 +14,7 @@ pipeline {
                 script {
                     envName = params.KBEnvironment
                     utilScript = load "common\\util.groovy"
-                    globalParameters = utilScript.globalParameters(envName)
-                    parametersScript = load "projects\\informx_trade_show\\parameters.groovy"
+                    parametersScript = load "Canastas\\parameters.groovy"
                     config = parametersScript.getForEnvironment(envName)   
                 }                
             }
