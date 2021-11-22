@@ -11,16 +11,16 @@ pipeline {
         choice(name: "BuildIOS", choices: ["False", "True"], description: "Build iOS Platform")
     }
     stages {
-        // stage("Init") {
-        //     steps {
-        //         echo "Initializing.."
-        //         script {
-        //             utilScript = load "common\\util.groovy"
-        //             parametersScript = load "Canastas\\parameters.groovy"
-        //             config = parametersScript.getForEnvironment(params.KBEnvironment)
-        //         }
-        //     }            
-        // }
+        stage("Init") {
+            steps {
+                echo "Initializing.."
+                script {
+                    utilScript = load "common\\util.groovy"
+                    parametersScript = load "Canastas\\parameters.groovy"
+                    config = parametersScript.getForEnvironment(params.KBEnvironment)
+                }
+            }            
+        }
         // stage("Update KB") {
         //     steps {
         //         echo "Updating KB.."
