@@ -16,13 +16,13 @@ def cloneRepo(env, gitEnv) {
 
         case "EnvLocal":
 
-            "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/GitTest.git"
+            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/GitTest.git"
 
             break
 
         case "EnvStable" || "EnvRelease":
 
-            "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git"
+            return "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git"
 
             break
 
