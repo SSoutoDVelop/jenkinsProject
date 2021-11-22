@@ -35,7 +35,8 @@ def gitWebApp(env, webapp, comment) {
     gitCheckout(env)
     gitAdd(webapp)
     gitCommit(comment)
-    gitPush()
+    // gitPush()
+
 }
 
 def gitCheckout(env) {
