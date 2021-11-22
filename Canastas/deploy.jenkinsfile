@@ -84,6 +84,10 @@ pipeline {
                                 bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
                                 "${config.General.GitFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")
 
+                            }  
+
+                            dir("${config.General.GitEnvFolder}\\") {               
+
                                 bat utilScript.gitWebApp(config.General.GitEnvironment, 
                                 "${config.DeploymentUnits[du.key].DeployWebappName}.war", 
                                 config.DeploymentUnits[du.key].DeployFullPath)

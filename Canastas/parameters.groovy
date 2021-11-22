@@ -139,7 +139,8 @@ def getForEnvironment(envName) {
     config.General.EnvironmentMobileFolder  = "${config.General.EnvironmentRootFolder}\\mobile"
 
     withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
-        config.General.GitFolder            = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
+        config.General.GitFolder    = "${path}"
+        config.General.GitEnvFolder = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
     }        
 
     //=========================================//
