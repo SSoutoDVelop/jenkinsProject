@@ -6,6 +6,10 @@ def getMSBuildParams(dictionary) {
     return params
 }
 
+def makeParam(key, value) {
+    return "/p:${key}=\"${value}\" "
+}
+
 def copyFile(source, target) {
     return "xcopy /Y \"${source}\" \"${target}\""
 }

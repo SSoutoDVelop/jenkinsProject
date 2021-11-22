@@ -9,7 +9,7 @@ def getForEnvironment(envName) {
     config.WebGenerator     = [:]
     config.Datastores       = [:]
     config.SDGenerator      = [:]
-    config.SDMainObjects    = [:]
+    config.SDMainObjects    = [:]-
     config.DeploymentUnits  = [:]
     config.AppCenter        = [:]
     config.Jenkins          = [:]
@@ -47,8 +47,7 @@ def getForEnvironment(envName) {
 
         config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\GeneXus 17U5HF"
         config.General.WorkingDirectory     = "C:\\Models\\TuRegaloMdP" 
-        config.General.ForceRebuild         = "True"  
-        config.General.RunDataLoad          = "True" 
+        config.General.ForceRebuild         = "False"  
 
         // Default datastore connection information
         config.Datastores["Default"] = [:]
@@ -80,8 +79,7 @@ def getForEnvironment(envName) {
 
         config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
         config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        config.General.ForceRebuild         = "True"  
-        config.General.RunDataLoad          = "True" 
+        config.General.ForceRebuild         = "False"  
 
         // Default datastore connection information
         config.Datastores["Default"] = [:]
@@ -109,8 +107,7 @@ def getForEnvironment(envName) {
 
         config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
         config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        config.General.ForceRebuild         = "True"  
-        config.General.RunDataLoad          = "True" 
+        config.General.ForceRebuild         = "False"  
 
         // Default datastore connection information
         config.Datastores["Default"] = [:]
@@ -149,6 +146,7 @@ def getForEnvironment(envName) {
     //=========================================//
 
     config.GXServer.GXServerUrl                 = "http://gxserver.montesdelplata.com.uy/genexusserver17"
+    config.GXServer.GXServerCredentialsKey      = "credentials-genexusserver17"
     config.GXServer.GXServerUsername            = ""
     config.GXServer.GXServerPassword            = ""
     config.GXServer.GXServerKB                  = config.General.WorkingVersion
@@ -157,10 +155,12 @@ def getForEnvironment(envName) {
     config.GXServer.GXServerFreezeAfterDeploy   = "False"     
 
     // GAM connection information
-    config.Environment.GAMAdminUsername         = "admin"
-    config.Environment.GAMAdminPassword         = "admin123"
-    config.Environment.GAMConnectionUsername    = "canastas"
-    config.Environment.GAMConnectionPassword    = "canastas123"
+    config.Environment.GAMAdminCredentialKey        = "credentials-gamadmin"
+    config.Environment.GAMAdminUsername             = ""
+    config.Environment.GAMAdminPassword             = ""
+    config.Environment.GAMConnectionCredentialKey   = "credentials-canastas-gamconnection"
+    config.Environment.GAMConnectionUsername        = ""
+    config.Environment.GAMConnectionPassword        = ""
 
     // Use parameter encryption in URLs
     config.Environment.UseEncryption = "NO"

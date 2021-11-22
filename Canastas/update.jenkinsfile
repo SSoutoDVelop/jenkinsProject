@@ -7,7 +7,7 @@ pipeline {
     agent { label "nodo-informx" }
     options { buildDiscarder(logRotator(numToKeepStr: "15")) }
     parameters {
-        choice(name: "KBEnvironment",choices: ["EnvTrunk", "EnvStable", "EnvRelease"],description: "Select KB Environment to Update")
+        choice(name: "KBEnvironment",choices: ["EnvLocal", "EnvStable", "EnvRelease"],description: "Select KB Environment to Update")
     }
     stages {
         stage("Init") {
@@ -24,31 +24,46 @@ pipeline {
         stage("Update KB") {
             steps {
                 script {
-                    def updateParams = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer)
-                    bat "msbuild.exe ${updateParams} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.GXServer.GXServerCredentialsKey, 
+                        usernameVariable: 'Username', 
+                        passwordVariable: 'Password')
+                        ]) {
+                             
+                        def buildProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.GXServer) + 
+                        utilScript.makeParam("GXServerUsername", Username) + 
+                        utilScript.makeParam("GXServerPassword", Password)
+
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
+                        
+                    }
                 }
             }
         }
-        stage("Set KB Properties") {
+        stage("Set Properties") {
             steps {
+                echo "Setting Properties.."
                 script {
-                    def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
-                    bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
-                    
-                    def webProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.WebGenerator)
-                    bat "msbuild.exe ${webProps} /tv:4.0 /verbosity:normal \"common\\set_web_generator_properties.msbuild\""
-                    
-                    config.Datastores.each { ds ->
-                        def dsProps = utilScript.getMSBuildParams(config.General) + "/p:DatastoreName=\"${ds.key}\" " + utilScript.getMSBuildParams(config.Datastores[ds.key])
-                        bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"common\\set_datastore_properties.msbuild\""
-                    }
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.Environment.GAMAdminCredentialKey, 
+                        usernameVariable: 'AdminUsername', 
+                        passwordVariable: 'AdminPassword'),
+                        credentialsId: config.Environment.GAMConnectionCredentialKey, 
+                        usernameVariable: 'ConnectionUsername', 
+                        passwordVariable: 'ConnectionPassword')
+                        ]) {        
 
-                    def sdProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.SDGenerator)
-                    bat "msbuild.exe ${sdProps} /tv:4.0 /verbosity:normal \"common\\set_sd_generator_properties.msbuild\""
-                    
-                    config.SDMainObjects.each { obj ->
-                        def mainProps = utilScript.getMSBuildParams(config.General) + "/p:SmartDevicesMainObject=\"${obj.key}\" " + utilScript.getMSBuildParams(config.SDMainObjects[obj.key])
-                        bat "msbuild.exe ${mainProps} /tv:4.0 /verbosity:normal \"common\\set_sd_main_properties.msbuild\""
+                        def envProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.Environment) + 
+                        utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
+                        utilScript.makeParam("GAMAdminPassword", AdminPassword) +
+                        utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
+                        utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
+
+                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
                     }
                 }
             }

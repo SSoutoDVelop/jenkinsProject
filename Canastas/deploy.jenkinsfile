@@ -26,15 +26,18 @@ pipeline {
                 echo "Updating KB.."
                 script {
 
-                    withCredentials([usernamePassword(
-                        credentialsId: 'credentials-genexusserver17', 
-                        usernameVariable: 'USERNAME', 
-                        passwordVariable: 'PASSWORD')]) {
-
-                        config.GXServer.GXServerUsername = USERNAME
-                        config.GXServer.GXServerPassword = PASSWORD
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.GXServer.GXServerCredentialsKey, 
+                        usernameVariable: 'Username', 
+                        passwordVariable: 'Password')
+                        ]) {
                              
-                        def buildProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.GXServer) 
+                        def buildProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.GXServer) + 
+                        utilScript.makeParam("GXServerUsername", Username) + 
+                        utilScript.makeParam("GXServerPassword", Password)
+
                         bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
                         
                     }     
@@ -45,8 +48,25 @@ pipeline {
             steps {
                 echo "Setting Properties.."
                 script {
-                    def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
-                    bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.Environment.GAMAdminCredentialKey, 
+                        usernameVariable: 'AdminUsername', 
+                        passwordVariable: 'AdminPassword'),
+                        credentialsId: config.Environment.GAMConnectionCredentialKey, 
+                        usernameVariable: 'ConnectionUsername', 
+                        passwordVariable: 'ConnectionPassword')
+                        ]) {        
+
+                        def envProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.Environment) + 
+                        utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
+                        utilScript.makeParam("GAMAdminPassword", AdminPassword) +
+                        utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
+                        utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
+
+                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+                    }
                 }
             }
         }
