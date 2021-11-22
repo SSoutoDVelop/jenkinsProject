@@ -6,7 +6,7 @@ def config
 pipeline {
     agent any
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvRelease"], description: "Select KB Environment to Deploy")
         choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
         choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
     }

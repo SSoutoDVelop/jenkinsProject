@@ -49,8 +49,6 @@ def getForEnvironment(envName) {
         config.General.ForceRebuild         = "True"  
         config.General.RunDataLoad          = "True" 
 
-        config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"
-
         // Default datastore connection information
         config.Datastores["Default"] = [:]
         config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
@@ -61,7 +59,9 @@ def getForEnvironment(envName) {
         config.Datastores["GAM"] = [:]
         config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
         config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
-        config.Datastores["GAM"].DatastoreDatabase = ""        
+        config.Datastores["GAM"].DatastoreDatabase = ""      
+
+        config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"  
 
         //================================//
         // GIT CONFIGURATION
@@ -71,7 +71,7 @@ def getForEnvironment(envName) {
 
     }
 
-    if(envName.equals("EnvRelease")) {
+    if(envName.equals("EnvStable")) {
 
         //=======================//
         // GENERAL CONFIGURATION
@@ -82,21 +82,50 @@ def getForEnvironment(envName) {
         config.General.ForceRebuild         = "True"  
         config.General.RunDataLoad          = "True" 
 
-        config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"
-
         // Default datastore connection information
         config.Datastores["Default"] = [:]
         config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
         config.Datastores["Default"].DatastoreDatabase = ""
 
         // GAM datastore connection information
         config.Datastores["GAM"] = [:]
         config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
         config.Datastores["GAM"].DatastoreDatabase = ""
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
+
+        config.General.GitEnvironment = "qa" //GitHub MdP    
+
+    }
+
+    if(envName.equals("EnvRelease")) {
+
+        //=======================//
+        // GENERAL CONFIGURATION
+        //=======================//        
+
+        config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
+        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
+        config.General.ForceRebuild         = "True"  
+        config.General.RunDataLoad          = "True" 
+
+        // Default datastore connection information
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/Canastas_Produccion;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
+        config.Datastores["Default"].DatastoreDatabase = ""
+
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
+        config.Datastores["GAM"].DatastoreDatabase = ""
+
+        config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
+
+        config.General.GitEnvironment = "prod" //GitHub MdP
 
     }
 

@@ -82,6 +82,12 @@ pipeline {
 
                             dir("${config.General.GitFolder}\\") {
 
+                                if(!fileExist("/")) {
+
+                                    bat utilScript.cloneRepo(config.General.GitEnvironment)  
+                                                        
+                                }
+
                                 bat utilScript.gitWebApp(config.General.GitEnvironment, 
                                 "${config.DeploymentUnits[du.key].DeployWebappName}.war", 
                                 config.DeploymentUnits[du.key].DeployFullPath)
