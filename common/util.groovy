@@ -12,9 +12,9 @@ def copyFile(source, target) {
 
 def gitWebApp(env, webapp, comment) {
 
-    bat "git checkout ${env}"
-    bat "git add ${webapp}"
-    bat "git commit -am '${comment}'"    
+    "git checkout ${env}"
+    "git add ${webapp}"
+    "git commit -am '${comment}'"    
 
     return "git push"
 }

@@ -51,6 +51,18 @@ def getForEnvironment(envName) {
 
         config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"
 
+        // Default datastore connection information
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["Default"].DatastoreDatabase = ""
+
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["GAM"].DatastoreDatabase = ""        
+
         //================================//
         // GIT CONFIGURATION
         //================================//    
@@ -59,9 +71,30 @@ def getForEnvironment(envName) {
 
     }
 
-    if(envName.equals("EnvStable")) {
+    if(envName.equals("EnvRelease")) {
 
+        //=======================//
+        // GENERAL CONFIGURATION
+        //=======================//        
 
+        config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
+        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Stable" 
+        config.General.ForceRebuild         = "True"  
+        config.General.RunDataLoad          = "True" 
+
+        config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"
+
+        // Default datastore connection information
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["Default"].DatastoreDatabase = ""
+
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
+        config.Datastores["GAM"].DatastoreDatabase = ""
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
