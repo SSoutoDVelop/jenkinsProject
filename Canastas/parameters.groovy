@@ -78,7 +78,7 @@ def getForEnvironment(envName) {
         //=======================//        
 
         config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
-        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Stable" 
+        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
         config.General.ForceRebuild         = "True"  
         config.General.RunDataLoad          = "True" 
 

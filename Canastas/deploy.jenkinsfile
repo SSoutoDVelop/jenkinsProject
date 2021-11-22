@@ -6,9 +6,9 @@ def config
 pipeline {
     agent any
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvRelease"], description: "Select KB Environment to Deploy")
-        choice(name: "BuildAndroid", choices: ["True", "False"], description: "Build Android Platform")
-        choice(name: "BuildIOS", choices: ["True", "False"], description: "Build iOS Platform")
+        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "BuildAndroid", choices: ["False", "True"], description: "Build Android Platform")
+        choice(name: "BuildIOS", choices: ["False", "True"], description: "Build iOS Platform")
     }
     stages {
         stage("Init") {
@@ -85,7 +85,7 @@ pipeline {
                                 if(!fileExist("/")) {
 
                                     bat utilScript.cloneRepo(config.General.GitEnvironment)  
-                                                        
+
                                 }
 
                                 bat utilScript.gitWebApp(config.General.GitEnvironment, 
