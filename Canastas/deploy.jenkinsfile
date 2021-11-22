@@ -79,8 +79,9 @@ pipeline {
 
                             dir("${config.Git.GitFolder}\\") {
 
-                                bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)     
-
+                                if(!fileExists("${config.Git.GitEnvFolder}\\")) {
+                                    bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)      
+                                } 
                             }  
 
                             dir("${config.Git.GitEnvFolder}\\") {                                 
