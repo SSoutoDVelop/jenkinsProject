@@ -18,9 +18,13 @@ def cloneRepo(env) {
 
             "git clone -b ${env} https://github.com/SSoutoDVelop/GitTest.git"
 
+            break
+
         case "EnvStable" || "EnvRelease":
 
             "git clone -b ${env} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git"
+
+            break
 
     }
 
