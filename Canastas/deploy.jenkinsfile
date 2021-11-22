@@ -79,7 +79,7 @@ pipeline {
 
                             dir("${config.General.GitFolder}\\") {
 
-                                if(!fileExist("/")) {
+                                if(!fileExists("/")) {
 
                                     bat utilScript.cloneRepo(config.General.GitEnvironment)  
 
