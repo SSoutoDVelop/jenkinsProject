@@ -49,6 +49,7 @@ pipeline {
                         credentialsId: config.Environment.GAMAdminCredentialKey, 
                         usernameVariable: 'AdminUsername', 
                         passwordVariable: 'AdminPassword'),
+                        
                         usernamePassword(
                         credentialsId: config.Environment.GAMConnectionCredentialKey, 
                         usernameVariable: 'ConnectionUsername', 
