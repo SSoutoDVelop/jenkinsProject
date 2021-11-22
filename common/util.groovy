@@ -30,15 +30,6 @@ def cloneRepo(env, gitEnv, name) {
 
 }
 
-def gitWebApp(env, webapp, comment) {
-
-    gitCheckout(env)
-    gitAdd(webapp)
-    gitCommit(comment)
-    // gitPush()
-
-}
-
 def gitCheckout(env) {
 
     return "git checkout ${env}"
