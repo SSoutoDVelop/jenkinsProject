@@ -3,6 +3,7 @@ def getForEnvironment(envName) {
     // Configuration root object
     def config              = [:]
     config.General          = [:]
+    config.Git              = [:]
     config.GXServer         = [:]    
     config.Environment      = [:]
     config.WebGenerator     = [:]
@@ -67,7 +68,7 @@ def getForEnvironment(envName) {
         // GIT CONFIGURATION
         //================================//    
 
-        config.General.GitEnvironment = "qa" //GitHub Testing           
+        config.Git.GitEnvironment = "qa" //GitHub Testing           
 
     }
 
@@ -96,7 +97,7 @@ def getForEnvironment(envName) {
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
-        config.General.GitEnvironment = "qa" //GitHub MdP    
+        config.Git.GitEnvironment = "qa" //GitHub MdP    
 
     }
 
@@ -125,7 +126,7 @@ def getForEnvironment(envName) {
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
-        config.General.GitEnvironment = "prod" //GitHub MdP
+        config.Git.GitEnvironment = "prod" //GitHub MdP
 
     }
 
@@ -139,8 +140,8 @@ def getForEnvironment(envName) {
     config.General.EnvironmentMobileFolder  = "${config.General.EnvironmentRootFolder}\\mobile"
 
     withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
-        config.General.GitFolder    = "${path}"
-        config.General.GitEnvFolder = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
+        config.Git.GitFolder    = "${path}"
+        config.Git.GitEnvFolder = "${path}${config.General.WebAppName}_${config.General.GitEnvironment}"
     }        
 
     //=========================================//

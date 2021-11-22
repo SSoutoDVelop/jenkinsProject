@@ -77,18 +77,18 @@ pipeline {
                     config.DeploymentUnits.each { du ->
                         if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
 
-                            dir("${config.General.GitFolder}\\") {
+                            dir("${config.Git.GitFolder}\\") {
 
-                                bat utilScript.cloneRepo(params.KBEnvironment, config.General.GitEnvironment, config.General.WebAppName)     
+                                bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)     
 
                             }  
 
-                            dir("${config.General.GitEnvFolder}\\") {                                 
+                            dir("${config.Git.GitEnvFolder}\\") {                                 
                             
                                 bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
-                                "${config.General.GitEnvFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")         
+                                "${config.Git.GitEnvFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")         
 
-                                bat utilScript.gitWebApp(config.General.GitEnvironment, 
+                                bat utilScript.gitWebApp(config.Git.GitEnvironment, 
                                 "${config.DeploymentUnits[du.key].DeployWebappName}.war", 
                                 config.DeploymentUnits[du.key].DeployFullPath)
 
