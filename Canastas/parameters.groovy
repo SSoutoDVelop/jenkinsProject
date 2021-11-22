@@ -9,7 +9,7 @@ def getForEnvironment(envName) {
     config.WebGenerator     = [:]
     config.Datastores       = [:]
     config.SDGenerator      = [:]
-    config.SDMainObjects    = [:]-
+    config.SDMainObjects    = [:]
     config.DeploymentUnits  = [:]
     config.AppCenter        = [:]
     config.Jenkins          = [:]
