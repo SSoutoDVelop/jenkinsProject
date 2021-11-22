@@ -41,24 +41,24 @@ pipeline {
         //         }
         //     }
         // }
-        stage("Set Properties") {
-            steps {
-                echo "Setting Properties.."
-                script {
-                    def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
-                    bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
-                }
-            }
-        }
-        stage("Build All") {
-            steps {
-                echo "Building All.."
-                script {
-                    def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
-                }
-            }
-        }
+        // stage("Set Properties") {
+        //     steps {
+        //         echo "Setting Properties.."
+        //         script {
+        //             def envProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.Environment)
+        //             bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+        //         }
+        //     }
+        // }
+        // stage("Build All") {
+        //     steps {
+        //         echo "Building All.."
+        //         script {
+        //             def buildProps = utilScript.getMSBuildParams(config.General)
+        //             bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+        //         }
+        //     }
+        // }
         stage("Package Deployment Units") {
             steps {
                 echo "Packing Deployment Units.."
