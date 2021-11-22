@@ -7,7 +7,7 @@ def getMSBuildParams(dictionary) {
 }
 
 def copyFile(source, target) {
-    return "copy \"${source}\" \"${target}\""
+    return "xcopy /Y \"${source}\" \"${target}\""
 }
 
 def cloneRepo(env, gitEnv, name) {
