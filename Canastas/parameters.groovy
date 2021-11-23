@@ -143,7 +143,6 @@ def getForEnvironment(envName) {
                 credentialsId: config.Datastores.Key, 
                 usernameVariable: 'user', 
                 passwordVariable: 'password')
-            )
         ])  {
 
             config.Datastores["Default"] = [:]
@@ -177,8 +176,8 @@ def getForEnvironment(envName) {
     withCredentials([
         string(
             credentialsId: 'git-path', 
-            variable: 'path'
-        )]) {    
+            variable: 'path')
+        ]) {    
         config.Git.GitFolder    = "${path}"
         config.Git.GitEnvFolder = "${path}${config.General.WebAppName}_${config.Git.GitEnvironment}"
     }        
