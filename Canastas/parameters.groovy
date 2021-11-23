@@ -106,7 +106,6 @@ def getForEnvironment(envName) {
                 credentialsId: config.Datastores.Key, 
                 usernameVariable: 'user', 
                 passwordVariable: 'password')
-            )
         ])  {
 
             config.Datastores["Default"] = [:]
