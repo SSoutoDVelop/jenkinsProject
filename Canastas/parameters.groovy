@@ -6,18 +6,28 @@ def getForEnvironment(envName) {
     config.Git              = [:]
     config.GXServer         = [:]    
     config.Environment      = [:]
-    config.WebGenerator     = [:]
     config.Datastores       = [:]
-    config.SDGenerator      = [:]
-    config.SDMainObjects    = [:]
     config.DeploymentUnits  = [:]
-    config.AppCenter        = [:]
-    config.Jenkins          = [:]
 
-    config.General.WorkingVersion       = "Canastas" 
-    config.General.WebAppName           = "canastas"
-    config.General.VersionSuffix        = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
-    config.General.WorkingEnvironment   = envName    
+    config.General.WorkingVersion           = "Canastas" 
+    config.General.WebAppName               = "canastas"
+    config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
+    config.General.WorkingEnvironment       = envName    
+    config.General.GXProgramDirKey          = "gx-programdir"
+    config.General.GXWorkingDirectoryKey    = "gx-workingdir"
+
+    withCredentials([
+        string(
+            credentialsId: 'gx-programdir', 
+            variable: 'programdir'),
+        string(
+            credentialsId: 'gx-workingdir', 
+            variable: 'workingdir')
+        ]) {    
+        config.General.GX_PROGRAM_DIR   = "${programdir}"
+        config.General.WorkingDirectory = "${workingdir}"
+    }    
+    config.General.ForceRebuild         = "False"  
 
     //================================//
     // DEPLOYMENT UNITS CONFIGURATION
@@ -38,6 +48,8 @@ def getForEnvironment(envName) {
     config.DeploymentUnits["WebAppDeploy"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
     config.DeploymentUnits["WebAppDeploy"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
     config.DeploymentUnits["WebAppDeploy"].DeployObjectNames            = "DeploymentUnit:DeploymentUnit"   
+
+    config.Datastores.Key = "jdbc-sqlserver"
   
     if(envName.equals("EnvLocal")) {
 
@@ -45,21 +57,28 @@ def getForEnvironment(envName) {
         // GENERAL CONFIGURATION
         //=======================//        
 
-        config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\GeneXus 17U5HF"
-        config.General.WorkingDirectory     = "C:\\Models\\TuRegaloMdP" 
-        config.General.ForceRebuild         = "False"  
+        // config.General.GX_PROGRAM_DIR       = "C:\Program Files (x86)\GeneXus\GeneXus 17U5HF"
+        // config.General.WorkingDirectory     = "C:\Models\TuRegaloMdP" 
 
-        // Default datastore connection information
-        config.Datastores["Default"] = [:]
-        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
-        config.Datastores["Default"].DatastoreDatabase = ""
+        withCredentials([
+            usernamePassword(
+                credentialsId: config.Datastores.Key, 
+                usernameVariable: 'user', 
+                passwordVariable: 'password')
+        ])  {
 
-        // GAM datastore connection information
-        config.Datastores["GAM"] = [:]
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=sa;password=saSQLs3rv3r."
-        config.Datastores["GAM"].DatastoreDatabase = ""      
+            config.Datastores["Default"] = [:]
+            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["Default"].DatastoreDatabase = ""
+
+            // GAM datastore connection information
+            config.Datastores["GAM"] = [:]
+            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["GAM"].DatastoreDatabase = ""            
+
+        }        
 
         config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"  
 
@@ -77,21 +96,31 @@ def getForEnvironment(envName) {
         // GENERAL CONFIGURATION
         //=======================//        
 
-        config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
-        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        config.General.ForceRebuild         = "False"  
+        // config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
+        // config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
+        // config.General.ForceRebuild         = "False"  
 
         // Default datastore connection information
-        config.Datastores["Default"] = [:]
-        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
-        config.Datastores["Default"].DatastoreDatabase = ""
+        withCredentials([
+            usernamePassword(
+                credentialsId: config.Datastores.Key, 
+                usernameVariable: 'user', 
+                passwordVariable: 'password')
+            )
+        ])  {
 
-        // GAM datastore connection information
-        config.Datastores["GAM"] = [:]
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
-        config.Datastores["GAM"].DatastoreDatabase = ""
+            config.Datastores["Default"] = [:]
+            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["Default"].DatastoreDatabase = ""
+
+            // GAM datastore connection information
+            config.Datastores["GAM"] = [:]
+            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["GAM"].DatastoreDatabase = ""            
+
+        }      
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
@@ -105,21 +134,31 @@ def getForEnvironment(envName) {
         // GENERAL CONFIGURATION
         //=======================//        
 
-        config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
-        config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        config.General.ForceRebuild         = "False"  
+        // config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
+        // config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
+        // config.General.ForceRebuild         = "False"  
 
         // Default datastore connection information
-        config.Datastores["Default"] = [:]
-        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/Canastas_Produccion;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
-        config.Datastores["Default"].DatastoreDatabase = ""
+        withCredentials([
+            usernamePassword(
+                credentialsId: config.Datastores.Key, 
+                usernameVariable: 'user', 
+                passwordVariable: 'password')
+            )
+        ])  {
 
-        // GAM datastore connection information
-        config.Datastores["GAM"] = [:]
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion;instance=SQLEXPRESS;user=dvelop;password=MdP_2019."
-        config.Datastores["GAM"].DatastoreDatabase = ""
+            config.Datastores["Default"] = [:]
+            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/Canastas_Produccion;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["Default"].DatastoreDatabase = ""
+
+            // GAM datastore connection information
+            config.Datastores["GAM"] = [:]
+            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
+            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion;instance=SQLEXPRESS;user=${user};password=${password}"
+            config.Datastores["GAM"].DatastoreDatabase = ""            
+
+        }
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
@@ -136,7 +175,11 @@ def getForEnvironment(envName) {
     config.General.EnvironmentWebFolder     = "${config.General.EnvironmentRootFolder}\\web"
     config.General.EnvironmentMobileFolder  = "${config.General.EnvironmentRootFolder}\\mobile"
 
-    withCredentials([string(credentialsId: 'git-path', variable: 'path')]) {    
+    withCredentials([
+        string(
+            credentialsId: 'git-path', 
+            variable: 'path'
+        )]) {    
         config.Git.GitFolder    = "${path}"
         config.Git.GitEnvFolder = "${path}${config.General.WebAppName}_${config.Git.GitEnvironment}"
     }        
@@ -172,7 +215,7 @@ def getForEnvironment(envName) {
     config.Environment.TargetPath = "${config.General.EnvironmentRelativePath}"  
 
     // Reorganize GAM Tables        
-    config.Environment.ReorganizeGamDatabase = "True"         
+    config.Environment.ReorganizeGamDatabase = "False"         
 
     return config
 }
