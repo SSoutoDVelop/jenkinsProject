@@ -57,9 +57,6 @@ def getForEnvironment(envName) {
         // GENERAL CONFIGURATION
         //=======================//        
 
-        // config.General.GX_PROGRAM_DIR       = "C:\Program Files (x86)\GeneXus\GeneXus 17U5HF"
-        // config.General.WorkingDirectory     = "C:\Models\TuRegaloMdP" 
-
         withCredentials([
             usernamePassword(
                 credentialsId: config.Datastores.Key, 
@@ -94,11 +91,7 @@ def getForEnvironment(envName) {
 
         //=======================//
         // GENERAL CONFIGURATION
-        //=======================//        
-
-        // config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
-        // config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        // config.General.ForceRebuild         = "False"  
+        //=======================//         
 
         // Default datastore connection information
         withCredentials([
@@ -131,11 +124,7 @@ def getForEnvironment(envName) {
 
         //=======================//
         // GENERAL CONFIGURATION
-        //=======================//        
-
-        // config.General.GX_PROGRAM_DIR       = "C:\\Program Files (x86)\\GeneXus\\Genexus17u5"
-        // config.General.WorkingDirectory     = "C:\\Models\\Canastas_Release" 
-        // config.General.ForceRebuild         = "False"  
+        //=======================//         
 
         // Default datastore connection information
         withCredentials([
