@@ -12,7 +12,6 @@ def getForEnvironment(envName) {
     config.General.WorkingVersion           = "Canastas" 
     config.General.WebAppName               = "canastas"
     config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
-    config.General.WorkingEnvironment       = "EnvRelease"    
     config.General.GXProgramDirKey          = "gx-programdir"
     config.General.GXWorkingDirectoryKey    = "gx-canastas-workingdir"
 
@@ -51,7 +50,8 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvLocal")) {
 
-        config.General.DBCredentialKey = "jdbc-sqlserver"
+        config.General.DBCredentialKey          = "jdbc-sqlserver"
+        config.General.WorkingEnvironment       = "EnvLocal"    
 
         //=======================//
         // GENERAL CONFIGURATION
@@ -81,7 +81,8 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvStable")) {
 
-        config.General.DBCredentialKey = "jdbc-sqlserver"
+        config.General.DBCredentialKey          = "jdbc-sqlserver"
+        config.General.WorkingEnvironment       = "EnvRelease"    
 
         //=======================//
         // GENERAL CONFIGURATION
@@ -108,6 +109,7 @@ def getForEnvironment(envName) {
     if(envName.equals("EnvRelease")) {
 
         config.General.DBCredentialKey = "jdbc-sqlserver"
+        config.General.WorkingEnvironment       = "EnvRelease"    
 
         //=======================//
         // GENERAL CONFIGURATION
