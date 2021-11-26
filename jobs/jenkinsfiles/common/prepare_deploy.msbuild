@@ -6,7 +6,10 @@
 		<!-- ##### BEFORE PACKAGING ##### -->
 		<FolderEnvironment Include="C:\DVelop\Canastas\EnvRelease\**\*.*"/>
 		<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>	
-
+		<Copy
+			SourceFiles="@(FolderEnvironment)"
+			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\"
+    	/>	
 	</Target>	
 
 	<Target Name="Default">   
