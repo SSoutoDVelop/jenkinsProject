@@ -9,7 +9,7 @@
 			<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>
 		</ItemGroup>	
 		<Copy
-			SourceFolder="@(FolderEnvironment)"
+			SourceFile="@(FolderEnvironment)"
 			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\%(RecursiveDir)"
 		/>
 
