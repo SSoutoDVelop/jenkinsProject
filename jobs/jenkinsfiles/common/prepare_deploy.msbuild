@@ -3,16 +3,6 @@
 
 	<Target Name="Default">   
 
-		<!-- ##### BEFORE PACKAGING ##### -->
-		<ItemGroup>
-			<FolderEnvironment Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)\**\*.*"/>
-			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>
-		</ItemGroup>	
-		<Copy
-			SourceFiles="@(FolderEnvironment)"
-			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\%(RecursiveDir)"
-		/>
-
 		<!-- ##### OPEN KB ##### -->
 		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
 
@@ -67,6 +57,16 @@
         <PropertyGroup>
             <ProjectFile></ProjectFile>
         </PropertyGroup>
+
+		<!-- ##### BEFORE PACKAGING ##### -->
+		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>
+		</ItemGroup>	
+		<Copy
+			SourceFiles="@(FolderEnvironment)"
+			DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
+		/>		
 
 		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" >
 			<Output TaskParameter="ProjectFile" PropertyName="ProjectFile"/>
