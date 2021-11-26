@@ -108,7 +108,7 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvRelease")) {
 
-        config.General.DBCredentialKey = "jdbc-sqlserver"
+        config.General.DBCredentialKey          = "jdbc-sqlserver"
         config.General.WorkingEnvironment       = "EnvRelease"    
 
         //=======================//
@@ -182,7 +182,7 @@ def getForEnvironment(envName) {
     config.Environment.TargetPath = "${config.General.EnvironmentRelativePath}"  
 
     // Reorganize GAM Tables        
-    config.Environment.ReorganizeGamDatabase = "False"    
+    config.Environment.ReorganizeGamDatabase    = "True"    
     config.Environment.DoNotExecuteReorg        = "True"       
 
     return config
