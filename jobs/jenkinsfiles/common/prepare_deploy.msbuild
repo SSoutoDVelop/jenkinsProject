@@ -1,15 +1,17 @@
 <Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
-	
+
 	<Target Name="Default">   
 
 		<!-- ##### BEFORE PACKAGING ##### -->
-		<FolderEnvironment Include="C:\DVelop\Canastas\EnvRelease\**\*.*"/>
-		<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>	
+		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\Canastas\EnvRelease\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>
+		</ItemGroup>	
 		<Copy
 			SourceFiles="@(FolderEnvironment)"
 			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\"
-    	/>
+		/>
 
 		<!-- ##### OPEN KB ##### -->
 		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
