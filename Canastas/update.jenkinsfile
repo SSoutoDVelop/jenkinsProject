@@ -5,7 +5,7 @@ def config
 pipeline {
     agent { label "win-genexus" }
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvStable", "EnvRelease"], description: "Select KB Environment to Update")
+        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Update")
     }
     stages {
         stage("Init") {
