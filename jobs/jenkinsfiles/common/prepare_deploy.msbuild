@@ -51,16 +51,10 @@
 			</DeployProperty>
 			<DeployProperty Include="IncludeGAMBackend">
 				<PropertyValue>$(DeployIncludeGAM)</PropertyValue>
-			</DeployProperty>
-			
-			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
-			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>			
+			</DeployProperty>					
 		</ItemGroup>        
 	
-		<Copy
-			SourceFiles="@(FolderEnvironment)"
-			DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
-		/>
+
         <PropertyGroup>
             <ProjectFile></ProjectFile>
         </PropertyGroup>
@@ -68,6 +62,15 @@
 		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" >
 			<Output TaskParameter="ProjectFile" PropertyName="ProjectFile"/>
 		</CreateDeployProject>
+
+		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>	
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(FolderEnvironment)"
+			DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
+		/>		
 
 	</Target>
 </Project>
