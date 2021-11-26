@@ -12,16 +12,16 @@ def getForEnvironment(envName) {
     config.General.WorkingVersion           = "Canastas" 
     config.General.WebAppName               = "canastas"
     config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
-    config.General.WorkingEnvironment       = envName    
+    config.General.WorkingEnvironment       = "EnvRelease"    
     config.General.GXProgramDirKey          = "gx-programdir"
-    config.General.GXWorkingDirectoryKey    = "gx-workingdir"
+    config.General.GXWorkingDirectoryKey    = "gx-canastas-workingdir"
 
     withCredentials([
         string(
-            credentialsId: 'gx-programdir', 
+            credentialsId: config.General.GXProgramDirKey, 
             variable: 'programdir'),
         string(
-            credentialsId: 'gx-workingdir', 
+            credentialsId: config.General.GXWorkingDirectoryKey, 
             variable: 'workingdir')
         ]) {    
         config.General.GX_PROGRAM_DIR   = "${programdir}"
@@ -49,33 +49,25 @@ def getForEnvironment(envName) {
     config.DeploymentUnits["WebAppDeploy"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
     config.DeploymentUnits["WebAppDeploy"].DeployObjectNames            = "DeploymentUnit:DeploymentUnit"   
 
-    config.Datastores.Key = "jdbc-sqlserver"
-  
     if(envName.equals("EnvLocal")) {
+
+        config.General.DBCredentialKey = "jdbc-sqlserver"
 
         //=======================//
         // GENERAL CONFIGURATION
         //=======================//        
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreServer = "localhost"
+        config.Datastores["Default"].DatastoreDatabase = "Canastas_Local"
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local"            
 
-        withCredentials([
-            usernamePassword(
-                credentialsId: config.Datastores.Key, 
-                usernameVariable: 'user', 
-                passwordVariable: 'password')
-        ])  {
-
-            config.Datastores["Default"] = [:]
-            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/Canastas_Local;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["Default"].DatastoreDatabase = ""
-
-            // GAM datastore connection information
-            config.Datastores["GAM"] = [:]
-            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["GAM"].DatastoreDatabase = ""            
-
-        }        
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreServer = "localhost"
+        config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Local"
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/CanastasGAM_Local"            
 
         config.Environment.GAMRepositoryId  = "fb79fce5-453d-43ac-9457-f93fd88a2810"  
 
@@ -89,30 +81,23 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvStable")) {
 
+        config.General.DBCredentialKey = "jdbc-sqlserver"
+
         //=======================//
         // GENERAL CONFIGURATION
-        //=======================//         
+        //=======================//        
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreServer = "uycls267.mdp.local"
+        config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo"            
 
-        // Default datastore connection information
-        withCredentials([
-            usernamePassword(
-                credentialsId: config.Datastores.Key, 
-                usernameVariable: 'user', 
-                passwordVariable: 'password')
-        ])  {
-
-            config.Datastores["Default"] = [:]
-            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["Default"].DatastoreDatabase = ""
-
-            // GAM datastore connection information
-            config.Datastores["GAM"] = [:]
-            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["GAM"].DatastoreDatabase = ""            
-
-        }      
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreServer = "localhost"
+        config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo"             
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
@@ -122,30 +107,23 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvRelease")) {
 
+        config.General.DBCredentialKey = "jdbc-sqlserver"
+
         //=======================//
         // GENERAL CONFIGURATION
-        //=======================//         
+        //=======================//        
+        config.Datastores["Default"] = [:]
+        config.Datastores["Default"].DatastoreServer = "uycls266.mdp.local:1433"
+        config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
+        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433:1433/Canastas_Produccion"            
 
-        // Default datastore connection information
-        withCredentials([
-            usernamePassword(
-                credentialsId: config.Datastores.Key, 
-                usernameVariable: 'user', 
-                passwordVariable: 'password')
-        ])  {
-
-            config.Datastores["Default"] = [:]
-            config.Datastores["Default"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/Canastas_Produccion;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["Default"].DatastoreDatabase = ""
-
-            // GAM datastore connection information
-            config.Datastores["GAM"] = [:]
-            config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = true
-            config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion;instance=SQLEXPRESS;user=${user};password=${password}"
-            config.Datastores["GAM"].DatastoreDatabase = ""            
-
-        }
+        // GAM datastore connection information
+        config.Datastores["GAM"] = [:]
+        config.Datastores["GAM"].DatastoreServer = "uycls266.mdp.local"
+        config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
+        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion"        
 
         config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
@@ -177,8 +155,8 @@ def getForEnvironment(envName) {
 
     config.GXServer.GXServerUrl                 = "http://gxserver.montesdelplata.com.uy/genexusserver17"
     config.GXServer.GXServerCredentialsKey      = "credentials-genexusserver17"
-    config.GXServer.GXServerUsername            = ""
-    config.GXServer.GXServerPassword            = ""
+    // config.GXServer.GXServerUsername            = ""
+    // config.GXServer.GXServerPassword            = ""
     config.GXServer.GXServerKB                  = config.General.WorkingVersion
     config.GXServer.GXServerVersion             = config.General.WorkingVersion 
     config.GXServer.GXServerChangelog           = "${env.WORKSPACE}\\Changelog${config.General.VersionSuffix}.xml" 
@@ -186,11 +164,11 @@ def getForEnvironment(envName) {
 
     // GAM connection information
     config.Environment.GAMAdminCredentialKey        = "credentials-gamadmin"
-    config.Environment.GAMAdminUsername             = ""
-    config.Environment.GAMAdminPassword             = ""
+    // config.Environment.GAMAdminUsername             = ""
+    // config.Environment.GAMAdminPassword             = ""
     config.Environment.GAMConnectionCredentialKey   = "credentials-canastas-gamconnection"
-    config.Environment.GAMConnectionUsername        = ""
-    config.Environment.GAMConnectionPassword        = ""
+    // config.Environment.GAMConnectionUsername        = ""
+    // config.Environment.GAMConnectionPassword        = ""
 
     // Use parameter encryption in URLs
     config.Environment.UseEncryption = "NO"
@@ -202,7 +180,8 @@ def getForEnvironment(envName) {
     config.Environment.TargetPath = "${config.General.EnvironmentRelativePath}"  
 
     // Reorganize GAM Tables        
-    config.Environment.ReorganizeGamDatabase = "False"         
+    config.Environment.ReorganizeGamDatabase = "False"    
+    config.Environment.DoNotExecuteReorg        = "True"       
 
     return config
 }

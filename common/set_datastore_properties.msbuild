@@ -1,0 +1,27 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<!-- ##### SET APPLICATION DATASTORE PROPERTIES ##### -->
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreDatabase)' != ''" Datastore="$(DatastoreName)" Name="CS_DBNAME" Value="$(DatastoreDatabase)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreTrustedConnection)' != ''" Datastore="$(DatastoreName)" Name="TRUSTED_CONNECTION" Value="$(DatastoreTrustedConnection)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreServer)' != ''" Datastore="$(DatastoreName)" Name="CS_SERVER" Value="$(DatastoreServer)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreUsername)' != ''" Datastore="$(DatastoreName)" Name="USER_ID" Value="$(DatastoreUsername)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastorePassword)' != ''" Datastore="$(DatastoreName)" Name="USER_PASSWORD" Value="$(DatastorePassword)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastorePort)' != ''" Datastore="$(DatastoreName)" Name="DBMS_PORT" Value="$(DatastorePort)" />
+		
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreUseJDBCCustomUrl)' != ''" Datastore="$(DatastoreName)" Name="JDBC_CUSTOM_URL" Value="$(DatastoreUseJDBCCustomUrl)" />
+		<SetDataStoreProperty Condition="'$(DatastoreName)' != '' And '$(DatastoreJDBCCustomUrl)' != ''" Datastore="$(DatastoreName)" Name="DB_URL" Value="$(DatastoreJDBCCustomUrl)" />
+
+
+	</Target>
+</Project>

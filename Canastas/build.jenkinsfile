@@ -1,22 +1,19 @@
 def utilScript
-def globalParameters
 def parametersScript
 def config
 
 pipeline {
-    agent any
+    agent { label "win-genexus" }
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvRelease"], description: "Select KB Environment to Deploy")
-        choice(name: "BuildAndroid", choices: ["False", "True"], description: "Build Android Platform")
-        choice(name: "BuildIOS", choices: ["False", "True"], description: "Build iOS Platform")
+        choice(name: "KBEnvironment", choices: ["EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
     }
     stages {
         stage("Init") {
             steps {
                 echo "Initializing.."
                 script {
-                    utilScript = load "common\\util.groovy"
-                    parametersScript = load "Canastas\\parameters.groovy"
+                    utilScript = load "jobs\\jenkinsfiles\\common\\util.groovy"
+                    parametersScript = load "jobs\\jenkinsfiles\\CANASTAS\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
                 }
             }            
@@ -38,7 +35,7 @@ pipeline {
                         utilScript.makeParam("GXServerUsername", Username) + 
                         utilScript.makeParam("GXServerPassword", Password)
 
-                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\update_kb.msbuild\""                 
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\update_kb.msbuild\""                 
                         
                     }      
                 }
@@ -57,8 +54,24 @@ pipeline {
                         usernamePassword(
                         credentialsId: config.Environment.GAMConnectionCredentialKey, 
                         usernameVariable: 'ConnectionUsername', 
-                        passwordVariable: 'ConnectionPassword')
-                        ]) {        
+                        passwordVariable: 'ConnectionPassword'),
+
+                        usernamePassword(
+                        credentialsId: config.General.DBCredentialKey, 
+                        usernameVariable: 'user', 
+                        passwordVariable: 'password')                        
+                        ]) { 
+
+                        config.Datastores.each { ds ->
+               
+                            def dsProps = utilScript.getMSBuildParams(config.General) + 
+                            utilScript.makeParam("DatastoreName", ds.key) + 
+                            utilScript.makeParam("DatastoreUsername", user) + 
+                            utilScript.makeParam("DatastorePassword", password) + 
+                            utilScript.getMSBuildParams(config.Datastores[ds.key])
+
+                            bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_datastore_properties.msbuild\""
+                        }    
 
                         def envProps = utilScript.getMSBuildParams(config.General) + 
                         utilScript.getMSBuildParams(config.Environment) + 
@@ -67,7 +80,8 @@ pipeline {
                         utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
                         utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
 
-                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"common\\set_environment_properties.msbuild\""
+                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_environment_properties.msbuild\""
+                       
                     }
                 }
             }
@@ -77,7 +91,7 @@ pipeline {
                 echo "Building All.."
                 script {
                     def buildProps = utilScript.getMSBuildParams(config.General)
-                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"common\\build_kb.msbuild\""
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\build_kb.msbuild\""
                 }
             }
         }            
