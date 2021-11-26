@@ -10,7 +10,7 @@
 		</ItemGroup>	
 		<Copy
 			SourceFolder="@(FolderEnvironment)"
-			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\"
+			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\%(RecursiveDir)"
 		/>
 
 		<!-- ##### OPEN KB ##### -->
