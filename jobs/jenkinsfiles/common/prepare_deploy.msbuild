@@ -12,6 +12,8 @@
 		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
 
 		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\Canastas\EnvRelease\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>		
 			<DeployProperty Include="UseAppServerDataSource">
 				<PropertyValue>$(DeployUseAppServerDatasource)</PropertyValue>
 			</DeployProperty>
