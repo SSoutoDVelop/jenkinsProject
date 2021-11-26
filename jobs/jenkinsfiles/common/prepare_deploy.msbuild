@@ -10,7 +10,7 @@
 		</ItemGroup>	
 		<Copy
 			SourceFiles="@(FolderEnvironment)"
-			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\"
+			DestinationFolder="$(WorkingDirectory)\$(WorkingEnvironment)\web"
 		/>
 
 		<!-- ##### OPEN KB ##### -->
