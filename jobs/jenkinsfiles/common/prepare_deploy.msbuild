@@ -5,8 +5,8 @@
 
 		<!-- ##### BEFORE PACKAGING ##### -->
 		<ItemGroup>
-			<FolderEnvironment Include="C:\DVelop\Canastas\EnvRelease\**\*.*"/>
-			<FolderTareasProgramadas Include="C:\DVelop\Canastas\EnvReleaseTareasProgramadas\**\*.*"/>
+			<FolderEnvironment Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>
 		</ItemGroup>	
 		<Copy
 			SourceFiles="@(FolderEnvironment)"
