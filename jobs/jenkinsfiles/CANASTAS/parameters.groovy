@@ -9,6 +9,7 @@ def getForEnvironment(envName) {
     config.Datastores       = [:]
     config.DeploymentUnits  = [:]
 
+    config.General.Name                     = "Canastas"
     config.General.WorkingVersion           = "Canastas" 
     config.General.WebAppName               = "canastas"
     config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}"
