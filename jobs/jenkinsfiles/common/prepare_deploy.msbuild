@@ -56,7 +56,6 @@
 	
         <PropertyGroup>
             <ProjectFile></ProjectFile>
-			<AdditionalDirectory>C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*</AdditionalDirectory>
         </PropertyGroup>
 
 		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)">

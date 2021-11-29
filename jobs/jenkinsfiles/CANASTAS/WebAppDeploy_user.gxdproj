@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<!--AdditionalDirectory>some directory to copy</AdditionalDirectory-->
+	</PropertyGroup>
+
+	<!-- You can add a directory where every AdditionalFile will be copied (relative to the root) -->
+	<PropertyGroup>
+		<AdditionalFileDestination></AdditionalFileDestination>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!--AdditionalFile Include="some File to copy"/-->
+
+		<!--
+		This file will be copied to $(DeployFullPath)\$(AdditionalFileDestination)
+		<AdditionalFile Include="C:\myfiles\myfile.txt"/>
+
+		This file will be copied to $(DeployFullPath)\TargetDir
+		<AdditionalFile Include="C:\myfiles\my other file.txt">
+			<RelativeTargetDir>TargetDir</RelativeTargetDir>
+		</AdditionalFile>
+		-->
+
+	</ItemGroup>
+	
+	<UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<InputFilename ParameterType="System.String" Required="true"/>
+			<OutputFilename ParameterType="System.String" Required="true"/>
+			<MatchExpression ParameterType="System.String" Required="true"/>
+			<ReplacementText ParameterType="System.String" Required="true"/>
+		</ParameterGroup>
+		<Task>
+			<Reference Include="System.Core"/>
+			<Using Namespace="System"/>
+			<Using Namespace="System.IO"/>
+			<Using Namespace="System.Text.RegularExpressions"/>
+			<Code Type="Fragment" Language="cs">
+			  <![CDATA[
+					Console.WriteLine("MatchExpression: " + MatchExpression);
+					Console.WriteLine("ReplacementText: " + ReplacementText);
+					File.WriteAllText(
+						OutputFilename,
+						Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText, RegexOptions.Singleline)
+						);
+				  ]]></Code>
+		</Task>
+	</UsingTask>	
+
+	<Target Name="RemoveExtraFiles">
+
+		<!-- Uncomment this section in case you want to delete files right before creating the package
+		<ItemGroup>
+			<UnneededFiles Include="$(DeployFullPath)\your\file\goes\here"/>
+		</ItemGroup>
+
+		<Message Text="RemovingUserExcludedFiles" Importance="high" />
+		<Delete	Files="@(UnneededFiles)"/>
+		-->
+	</Target>
+
+
+	<Target Name="BeforePackaging" DependsOnTargets="RemoveExtraFiles">
+	
+		<ReplaceFileText InputFilename="$(DeployFullPath)\web.config" OutputFilename="$(DeployFullPath)\web.config" MatchExpression="  &lt;/system.web&gt;" ReplacementText="    &lt;httpCookies sameSite=&quot;Lax&quot; /&gt;%0D%0A  &lt;/system.web&gt;"/>
+		<ReplaceFileText InputFilename="$(DeployFullPath)\web.config" OutputFilename="$(DeployFullPath)\web.config" MatchExpression="  &lt;/system.web&gt;" ReplacementText="    &lt;sessionState timeout=&quot;1440&quot; cookieSameSite=&quot;Lax&quot; /&gt;%0D%0A  &lt;/system.web&gt;"/>
+		
+		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
+		</ItemGroup>
+        <Copy
+            SourceFiles="@(FolderEnvironment)"
+            DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
+        />
+	</Target>
+
+
+</Project>
