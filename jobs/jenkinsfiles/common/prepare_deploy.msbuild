@@ -1,16 +1,16 @@
 <Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
 
-	<ItemGroup>
-		<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
-		<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>	
-	</ItemGroup>
-	<Copy
-		SourceFiles="@(FolderEnvironment)"
-		DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
-	/>	
-
 	<Target Name="Default">   
+
+		<ItemGroup>
+			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
+			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>	
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(FolderEnvironment)"
+			DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
+		/>
 
 		<!-- ##### OPEN KB ##### -->
 		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
