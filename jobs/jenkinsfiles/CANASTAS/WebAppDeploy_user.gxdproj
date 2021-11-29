@@ -25,30 +25,6 @@
 
 	</ItemGroup>
 	
-	<UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-		<ParameterGroup>
-			<InputFilename ParameterType="System.String" Required="true"/>
-			<OutputFilename ParameterType="System.String" Required="true"/>
-			<MatchExpression ParameterType="System.String" Required="true"/>
-			<ReplacementText ParameterType="System.String" Required="true"/>
-		</ParameterGroup>
-		<Task>
-			<Reference Include="System.Core"/>
-			<Using Namespace="System"/>
-			<Using Namespace="System.IO"/>
-			<Using Namespace="System.Text.RegularExpressions"/>
-			<Code Type="Fragment" Language="cs">
-			  <![CDATA[
-					Console.WriteLine("MatchExpression: " + MatchExpression);
-					Console.WriteLine("ReplacementText: " + ReplacementText);
-					File.WriteAllText(
-						OutputFilename,
-						Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText, RegexOptions.Singleline)
-						);
-				  ]]></Code>
-		</Task>
-	</UsingTask>	
-
 	<Target Name="RemoveExtraFiles">
 
 		<!-- Uncomment this section in case you want to delete files right before creating the package
@@ -64,9 +40,6 @@
 
 	<Target Name="BeforePackaging" DependsOnTargets="RemoveExtraFiles">
 	
-		<ReplaceFileText InputFilename="$(DeployFullPath)\web.config" OutputFilename="$(DeployFullPath)\web.config" MatchExpression="  &lt;/system.web&gt;" ReplacementText="    &lt;httpCookies sameSite=&quot;Lax&quot; /&gt;%0D%0A  &lt;/system.web&gt;"/>
-		<ReplaceFileText InputFilename="$(DeployFullPath)\web.config" OutputFilename="$(DeployFullPath)\web.config" MatchExpression="  &lt;/system.web&gt;" ReplacementText="    &lt;sessionState timeout=&quot;1440&quot; cookieSameSite=&quot;Lax&quot; /&gt;%0D%0A  &lt;/system.web&gt;"/>
-		
 		<ItemGroup>
 			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
 		</ItemGroup>
