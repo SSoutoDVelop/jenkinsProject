@@ -3,14 +3,14 @@
 
 	<Target Name="Default">   
 
-		<ItemGroup>
+		<!-- <ItemGroup>
 			<FolderEnvironment Include="C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*"/>
 			<FolderTareasProgramadas Include="C:\DVelop\$(WorkingVersion)\$(WorkingEnvironment)TareasProgramadas\**\*.*"/>	
 		</ItemGroup>
 		<Copy
 			SourceFiles="@(FolderEnvironment)"
 			DestinationFolder="$(DeployFullPath)\%(RecursiveDir)"
-		/>
+		/> -->
 
 		<!-- ##### OPEN KB ##### -->
 		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
@@ -66,6 +66,7 @@
 
         <PropertyGroup>
             <ProjectFile></ProjectFile>
+			<AdditionalDirectory>C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*</AdditionalDirectory>
         </PropertyGroup>
 
 		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" >
