@@ -69,7 +69,7 @@
 			<AdditionalDirectory>C:\DVelop\$(Name)\$(WorkingEnvironment)\**\*.*</AdditionalDirectory>
         </PropertyGroup>
 
-		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" >
+		<CreateDeployProject ProjectName="$(DeployProjectName)" ObjectNames="$(DeployObjectNames)" AdditionalProperies="@(DeployProperty)" SelectedObjectsOnly="$(DeploySelectedObjectsOnly)" AdditionalDirectory="$(AdditionalDirectory)" >
 			<Output TaskParameter="ProjectFile" PropertyName="ProjectFile"/>
 		</CreateDeployProject>
 
