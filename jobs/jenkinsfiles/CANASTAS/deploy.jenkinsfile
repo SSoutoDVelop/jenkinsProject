@@ -102,7 +102,7 @@ pipeline {
                     config.DeploymentUnits.each { du ->
                         def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
 
-                        bat utilScript.copyFile("jobs\\jenkinsfiles\\CANASTAS\\WebAppDeploy_user.gxdproj", 
+                        bat utilScript.copyFile("jobs\\jenkinsfiles\\CANASTAS\\${du.key}_user.gxdproj", 
                         "${config.General.EnvironmentWebFolder}\\")
 
                         bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
