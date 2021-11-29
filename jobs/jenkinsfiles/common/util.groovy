@@ -57,29 +57,4 @@ def gitPush() {
 
 }
 
-def addPropertyGxProj(gxdproj, parentElement, element, innerText) {
-
-    "powershell"
-    "powershell $xmlfile = [XML](Get-Content ${gxdproj})"
-    "powershell $newelement = $xmlfile.CreateElement(${parentElement}, '')"
-    "powershell $xmlfile.project.AppendChild($newelement)"
-    "powershell $newelement = $xmlfile.CreateElement(${element})"
-    "powershell $element = $xmlfile.SelectSingleNode(${element})"
-    "powershell $element.InnerText = '${innerText}'"
-    "powershell $xmlfile.save('${gxdproj})"  
-
-
-    // powershell '$xmlfile = [XML](Get-Content "${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj)\\"'
-    // powershell "$newelement = $xmlfile.CreateElement('PropertyGroup', '')"
-    // powershell "$xmlfile.project.AppendChild($newelement)"
-    // powershell "$newelement = $xmlfile.CreateElement('AdditionalDirectory')"
-    // powershell "$element = $xmlfile.SelectSingleNode('AdditionalDirectory')"
-    // powershell "$element.InnerText = 'C:\\DVelop\\${config.General.Name}\\${config.General.WorkingEnvironment}\\**\\*.*'"
-    // powershell "$xmlfile.save('${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj')"    
-
-
-
-
-}
-
 return this

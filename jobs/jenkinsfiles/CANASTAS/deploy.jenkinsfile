@@ -102,13 +102,6 @@ pipeline {
                     config.DeploymentUnits.each { du ->
                         def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
                         bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
-
-                        bat utilScript.addPropertyGxProj(
-                            "${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj)", 
-                            "PropertyGroup", 
-                            "AdditionalDirectory", 
-                            "C:\\DVelop\\${config.General.Name}\\${config.General.WorkingEnvironment}\\**\\*.*")
-
                         bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
                     }
                 }
