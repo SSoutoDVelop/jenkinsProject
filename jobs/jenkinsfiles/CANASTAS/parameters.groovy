@@ -33,21 +33,21 @@ def getForEnvironment(envName) {
     // DEPLOYMENT UNITS CONFIGURATION
     //================================//
 
-    config.DeploymentUnits["WebAppDeploy"]                              = [:]
-    config.DeploymentUnits["WebAppDeploy"].DeployTargetId               = "LOCAL" 
-    config.DeploymentUnits["WebAppDeploy"].DeployApplicationCompiler    = "JAVA" 
-    config.DeploymentUnits["WebAppDeploy"].DeploySelectedObjectsOnly    = "False"
-    config.DeploymentUnits["WebAppDeploy"].DeployApplicationServer      = "Tomcat 8.x"
-    config.DeploymentUnits["WebAppDeploy"].DeployUseAppServerDatasource = "False" 
-    config.DeploymentUnits["WebAppDeploy"].DeployIncludeGAM             = "False" 
-    config.DeploymentUnits["WebAppDeploy"].DeployTargetJRE              = "9" 
-    config.DeploymentUnits["WebAppDeploy"].DeployPackageFormat          = "Automatic" 
-    config.DeploymentUnits["WebAppDeploy"].DeployTimeStamp              = "${env.BUILD_TIMESTAMP}"
-    config.DeploymentUnits["WebAppDeploy"].DeployFileFullPath           = "${env.WORKSPACE}" 
-    config.DeploymentUnits["WebAppDeploy"].DeployWebappName             = config.General.WebAppName
-    config.DeploymentUnits["WebAppDeploy"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
-    config.DeploymentUnits["WebAppDeploy"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
-    config.DeploymentUnits["WebAppDeploy"].DeployObjectNames            = "DeploymentUnit:DeploymentUnit"   
+    config.DeploymentUnits["DeploymentUnit"]                              = [:]
+    config.DeploymentUnits["DeploymentUnit"].DeployTargetId               = "LOCAL" 
+    config.DeploymentUnits["DeploymentUnit"].DeployApplicationCompiler    = "JAVA" 
+    config.DeploymentUnits["DeploymentUnit"].DeploySelectedObjectsOnly    = "False"
+    config.DeploymentUnits["DeploymentUnit"].DeployApplicationServer      = "Tomcat 8.x"
+    config.DeploymentUnits["DeploymentUnit"].DeployUseAppServerDatasource = "False" 
+    config.DeploymentUnits["DeploymentUnit"].DeployIncludeGAM             = "False" 
+    config.DeploymentUnits["DeploymentUnit"].DeployTargetJRE              = "9" 
+    config.DeploymentUnits["DeploymentUnit"].DeployPackageFormat          = "Automatic" 
+    config.DeploymentUnits["DeploymentUnit"].DeployTimeStamp              = "${env.BUILD_TIMESTAMP}"
+    config.DeploymentUnits["DeploymentUnit"].DeployFileFullPath           = "${env.WORKSPACE}" 
+    config.DeploymentUnits["DeploymentUnit"].DeployWebappName             = config.General.WebAppName
+    config.DeploymentUnits["DeploymentUnit"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
+    config.DeploymentUnits["DeploymentUnit"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
+    config.DeploymentUnits["DeploymentUnit"].DeployObjectNames            = "DeploymentUnit:DeploymentUnit"   
 
     if(envName.equals("EnvLocal")) {
 
