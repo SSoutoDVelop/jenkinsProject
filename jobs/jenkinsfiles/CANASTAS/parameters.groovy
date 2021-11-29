@@ -11,7 +11,7 @@ def getForEnvironment(envName) {
 
     config.General.WorkingVersion           = "Canastas" 
     config.General.WebAppName               = "canastas"
-    config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}_${env.BUILD_TIMESTAMP}"
+    config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}_${env.JOB_NAME}"
     config.General.GXProgramDirKey          = "gx-programdir"
     config.General.GXWorkingDirectoryKey    = "gx-canastas-workingdir"
 
