@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("Testing") {
             when {
-                environment name: 'Test/Testing'
+                triggeredBy "Test/Testing"
             }
             steps {
                 echo "${JOB_NAME}"
