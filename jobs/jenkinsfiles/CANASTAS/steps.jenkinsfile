@@ -89,8 +89,8 @@ pipeline {
         stage("Build All") {
             when {
                 anyOf {
-                    equals(actual: JOB_NAME, expected: 'Canastas/Build_KB')
-                    equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+                    equals(actual: JOB_NAME, expected: "${config.General.Name}/Build_KB")
+                    equals(actual: JOB_NAME, expected: "${config.General.Name}/Deploy_KB")
                 }
             }
             steps {
@@ -122,7 +122,7 @@ pipeline {
         }
         stage("Publish WebApps") {
             when {
-                equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+                equals(actual: JOB_NAME, expected: "${config.General.Name}/Deploy_KB")
             }                        
             steps {
                 script {   
