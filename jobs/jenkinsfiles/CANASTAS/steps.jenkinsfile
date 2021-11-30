@@ -9,6 +9,9 @@ pipeline {
     }
     stages {
         stage("Testing") {
+            when {
+                JOB_NAME: "Test/Testing"
+            }
             steps {
                 echo "${JOB_NAME}"
             }
