@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("Testing") {
             when {
-                not {JOB_NAME 'Test/Testing'}
+                equals(actual: JOB_NAME, expected: 'Test/Testing')
             }
             steps {
                 echo "${JOB_NAME}"
