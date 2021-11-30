@@ -8,151 +8,149 @@ pipeline {
         choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
     }
     stages {
-        stage("Testing") {
-            when {
-                equals(actual: JOB_NAME, expected: 'Test/Testing')
-            }
+        stage("Init") {
             steps {
-                echo "${JOB_NAME}"
+                echo "Initializing.."
+                script {
+                    utilScript = load "jobs\\jenkinsfiles\\common\\util.groovy"
+                    parametersScript = load "jobs\\jenkinsfiles\\CANASTAS\\parameters.groovy"
+                    config = parametersScript.getForEnvironment(params.KBEnvironment)
+                }
+            }            
+        }
+        stage("Update KB") {
+            steps {
+                echo "Updating KB.."
+                script {
+
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.GXServer.GXServerCredentialsKey, 
+                        usernameVariable: 'Username', 
+                        passwordVariable: 'Password')
+                        ]) {
+                             
+                        def buildProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.GXServer) + 
+                        utilScript.makeParam("GXServerUsername", Username) + 
+                        utilScript.makeParam("GXServerPassword", Password)
+
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\update_kb.msbuild\""                 
+                        
+                    }     
+                }
             }
         }
-        // stage("Init") {
-        //     steps {
-        //         echo "Initializing.."
-        //         script {
-        //             utilScript = load "jobs\\jenkinsfiles\\common\\util.groovy"
-        //             parametersScript = load "jobs\\jenkinsfiles\\CANASTAS\\parameters.groovy"
-        //             config = parametersScript.getForEnvironment(params.KBEnvironment)
-        //         }
-        //     }            
-        // }
-        // stage("Update KB") {
-        //     steps {
-        //         echo "Updating KB.."
-        //         script {
-
-        //             withCredentials([
-        //                 usernamePassword(
-        //                 credentialsId: config.GXServer.GXServerCredentialsKey, 
-        //                 usernameVariable: 'Username', 
-        //                 passwordVariable: 'Password')
-        //                 ]) {
-                             
-        //                 def buildProps = utilScript.getMSBuildParams(config.General) + 
-        //                 utilScript.getMSBuildParams(config.GXServer) + 
-        //                 utilScript.makeParam("GXServerUsername", Username) + 
-        //                 utilScript.makeParam("GXServerPassword", Password)
-
-        //                 bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\update_kb.msbuild\""                 
+        stage("Set Properties") {
+            steps {
+                echo "Setting Properties.."
+                script {
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.Environment.GAMAdminCredentialKey, 
+                        usernameVariable: 'AdminUsername', 
+                        passwordVariable: 'AdminPassword'),
                         
-        //             }     
-        //         }
-        //     }
-        // }
-        // stage("Set Properties") {
-        //     steps {
-        //         echo "Setting Properties.."
-        //         script {
-        //             withCredentials([
-        //                 usernamePassword(
-        //                 credentialsId: config.Environment.GAMAdminCredentialKey, 
-        //                 usernameVariable: 'AdminUsername', 
-        //                 passwordVariable: 'AdminPassword'),
-                        
-        //                 usernamePassword(
-        //                 credentialsId: config.Environment.GAMConnectionCredentialKey, 
-        //                 usernameVariable: 'ConnectionUsername', 
-        //                 passwordVariable: 'ConnectionPassword'),
+                        usernamePassword(
+                        credentialsId: config.Environment.GAMConnectionCredentialKey, 
+                        usernameVariable: 'ConnectionUsername', 
+                        passwordVariable: 'ConnectionPassword'),
 
-        //                 usernamePassword(
-        //                 credentialsId: config.General.DBCredentialKey, 
-        //                 usernameVariable: 'user', 
-        //                 passwordVariable: 'password')                        
-        //                 ]) { 
+                        usernamePassword(
+                        credentialsId: config.General.DBCredentialKey, 
+                        usernameVariable: 'user', 
+                        passwordVariable: 'password')                        
+                        ]) { 
 
-        //                 config.Datastores.each { ds ->
+                        config.Datastores.each { ds ->
                
-        //                     def dsProps = utilScript.getMSBuildParams(config.General) + 
-        //                     utilScript.makeParam("DatastoreName", ds.key) + 
-        //                     utilScript.makeParam("DatastoreUsername", user) + 
-        //                     utilScript.makeParam("DatastorePassword", password) + 
-        //                     utilScript.getMSBuildParams(config.Datastores[ds.key])
+                            def dsProps = utilScript.getMSBuildParams(config.General) + 
+                            utilScript.makeParam("DatastoreName", ds.key) + 
+                            utilScript.makeParam("DatastoreUsername", user) + 
+                            utilScript.makeParam("DatastorePassword", password) + 
+                            utilScript.getMSBuildParams(config.Datastores[ds.key])
 
-        //                     bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_datastore_properties.msbuild\""
-        //                 }    
+                            bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_datastore_properties.msbuild\""
+                        }    
 
-        //                 def envProps = utilScript.getMSBuildParams(config.General) + 
-        //                 utilScript.getMSBuildParams(config.Environment) + 
-        //                 utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
-        //                 utilScript.makeParam("GAMAdminPassword", AdminPassword) +
-        //                 utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
-        //                 utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
+                        def envProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.Environment) + 
+                        utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
+                        utilScript.makeParam("GAMAdminPassword", AdminPassword) +
+                        utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
+                        utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
 
-        //                 bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_environment_properties.msbuild\""
+                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_environment_properties.msbuild\""
                        
-        //             }
-        //         }
-        //     }
-        // }
-        // stage("Build All") {
-        //     when {
-        //         anyOf {
-        //             param.KBEnvironment
+                    }
+                }
+            }
+        }
+        stage("Build All") {
+            when {
+                allOf {
+                    equals(actual: JOB_NAME, expected: 'Canastas/Build_KB')
+                    equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+                }
+            }
+            steps {
+                echo "Building All.."
+                script {
+                    def buildProps = utilScript.getMSBuildParams(config.General)
+                    bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\build_kb.msbuild\""
+                }
+            }
+        }
+        stage("Package Deployment Units") {
+            when {
+                equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+            }            
+            steps {
+                echo "Packing Deployment Units.."
+                script {                    
+                    config.DeploymentUnits.each { du ->
+                        def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
 
-        //         }
-        //     }
-        //     steps {
-        //         echo "Building All.."
-        //         script {
-        //             def buildProps = utilScript.getMSBuildParams(config.General)
-        //             bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\build_kb.msbuild\""
-        //         }
-        //     }
-        // }
-        // stage("Package Deployment Units") {
-        //     steps {
-        //         echo "Packing Deployment Units.."
-        //         script {                    
-        //             config.DeploymentUnits.each { du ->
-        //                 def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
+                        bat utilScript.copyFile("jobs\\jenkinsfiles\\CANASTAS\\${du.key}_user.gxdproj", 
+                        "${config.General.EnvironmentWebFolder}\\")
 
-        //                 bat utilScript.copyFile("jobs\\jenkinsfiles\\CANASTAS\\${du.key}_user.gxdproj", 
-        //                 "${config.General.EnvironmentWebFolder}\\")
+                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
+                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
+                    }
+                }
+            }
+        }
+        stage("Publish WebApps") {
+            when {
+                equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+            }                        
+            steps {
+                script {   
+                    config.DeploymentUnits.each { du ->
+                        if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
 
-        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
-        //                 bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
-        //             }
-        //         }
-        //     }
-        // }
-        // stage("Publish WebApps") {
-        //     steps {
-        //         script {   
-        //             config.DeploymentUnits.each { du ->
-        //                 if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
+                            dir("${config.Git.GitFolder}\\") {
 
-        //                     dir("${config.Git.GitFolder}\\") {
+                                if(!fileExists("${config.Git.GitEnvFolder}\\")) {
+                                    bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)      
+                                } 
+                            }  
 
-        //                         if(!fileExists("${config.Git.GitEnvFolder}\\")) {
-        //                             bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)      
-        //                         } 
-        //                     }  
-
-        //                     dir("${config.Git.GitEnvFolder}\\") {                                 
+                            dir("${config.Git.GitEnvFolder}\\") {                                 
                             
-        //                         bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
-        //                         "${config.Git.GitEnvFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")         
+                                bat utilScript.copyFile("${config.DeploymentUnits[du.key].DeployFullPath}.war", 
+                                "${config.Git.GitEnvFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")         
 
-        //                         bat utilScript.gitCheckout(config.Git.GitEnvironment)
-        //                         bat utilScript.gitAdd("${config.DeploymentUnits[du.key].DeployWebappName}.war")
-        //                         bat utilScript.gitCommit(config.DeploymentUnits[du.key].DeployFullPath)
-        //                         bat utilScript.gitPush()
+                                bat utilScript.gitCheckout(config.Git.GitEnvironment)
+                                bat utilScript.gitAdd("${config.DeploymentUnits[du.key].DeployWebappName}.war")
+                                bat utilScript.gitCommit(config.DeploymentUnits[du.key].DeployFullPath)
+                                bat utilScript.gitPush()
 
-        //                     }                             
-        //                 }                                          
-        //             }                    
-        //         }
-        //     }
-        // }             
+                            }                             
+                        }                                          
+                    }                    
+                }
+            }
+        }             
     }
 }
