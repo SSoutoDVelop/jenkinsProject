@@ -103,7 +103,7 @@ pipeline {
         }
         stage("Package Deployment Units") {
             when {
-                equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
+                equals(actual: JOB_NAME, expected: "${config.General.Name}/Deploy_KB")
             }            
             steps {
                 echo "Packing Deployment Units.."
