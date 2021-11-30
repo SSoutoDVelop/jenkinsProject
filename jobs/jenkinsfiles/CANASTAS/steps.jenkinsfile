@@ -88,7 +88,7 @@ pipeline {
         }
         stage("Build All") {
             when {
-                allOf {
+                anyOf {
                     equals(actual: JOB_NAME, expected: 'Canastas/Build_KB')
                     equals(actual: JOB_NAME, expected: 'Canastas/Deploy_KB')
                 }
