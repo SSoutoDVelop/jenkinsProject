@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("Testing") {
             when {
-                triggeredBy "Test/Testing"
+                not {JOB_NAME 'Test/Testing'}
             }
             steps {
                 echo "${JOB_NAME}"
