@@ -11,7 +11,7 @@ def makeParam(key, value) {
 }
 
 def copyFile(source, target) {
-    return "xcopy /Y \"${source}\" \"${target}\""
+    return "xcopy /Y \"${source}\" \"${target}\"*"
 }
 
 def cloneRepo(env, gitEnv, name) {
