@@ -108,7 +108,7 @@ def getForEnvironment(envName) {
         config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
         config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Portal_Qa"             
 
-        config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
+        config.Environment.GAMRepositoryId  = "adab39a7-7939-4ad3-afcb-6a52cb48f1c2"
 
         config.Git.GitEnvironment = "qa" //GitHub MdP    
 
