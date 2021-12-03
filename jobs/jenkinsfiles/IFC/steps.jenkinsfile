@@ -13,7 +13,7 @@ pipeline {
                 echo "Initializing.."
                 script {
                     utilScript = load "jobs\\jenkinsfiles\\common\\util.groovy"
-                    parametersScript = load "jobs\\jenkinsfiles\\${JOB_NAME.split("\")[0]}\\parameters.groovy"
+                    parametersScript = load "jobs\\jenkinsfiles\\${JOB_NAME.split("\\")[0]}\\parameters.groovy"
                     config = parametersScript.getForEnvironment(params.KBEnvironment)
                 }
             }            
