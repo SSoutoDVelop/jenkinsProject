@@ -14,7 +14,7 @@ def getForEnvironment(envName) {
     config.General.WebAppName               = "campo"
     config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}"
     config.General.GXProgramDirKey          = "gx-programdir"
-    config.General.GXWorkingDirectoryKey    = "gx-campo-workingdir"
+    config.General.GXWorkingDirectoryKey    = "gx-${config.General.WebAppName}-workingdir"
 
     withCredentials([
         string(
@@ -89,55 +89,55 @@ def getForEnvironment(envName) {
 
     if(envName.equals("EnvStable")) {
 
-        config.General.WorkingEnvironment       = "EnvRelease"     
-        config.General.DeployEnvironment        = "EnvStable"   
+        // config.General.WorkingEnvironment       = "EnvRelease"     
+        // config.General.DeployEnvironment        = "EnvStable"   
 
-        //=======================//
-        // GENERAL CONFIGURATION
-        //=======================//        
-        config.Datastores["Default"] = [:]
-        config.Datastores["Default"].DatastoreServer = "uycls267.mdp.local"
-        config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
-        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo"            
+        // //=======================//
+        // // GENERAL CONFIGURATION
+        // //=======================//        
+        // config.Datastores["Default"] = [:]
+        // config.Datastores["Default"].DatastoreServer = "uycls267.mdp.local"
+        // config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
+        // config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
+        // config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/Canastas_Desarrollo"            
 
-        // GAM datastore connection information
-        config.Datastores["GAM"] = [:]
-        config.Datastores["GAM"].DatastoreServer = "localhost"
-        config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo"             
+        // // GAM datastore connection information
+        // config.Datastores["GAM"] = [:]
+        // config.Datastores["GAM"].DatastoreServer = "localhost"
+        // config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
+        // config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
+        // config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls267.mdp.local:1433/CanastasGAM_Desarrollo"             
 
-        config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
+        // config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
-        config.Git.GitEnvironment = "qa" //GitHub MdP    
+        // config.Git.GitEnvironment = "qa" //GitHub MdP    
 
     }
 
     if(envName.equals("EnvRelease")) {
 
-        config.General.WorkingEnvironment       = "EnvRelease"    
-        config.General.DeployEnvironment        = "EnvRelease"     
+        // config.General.WorkingEnvironment       = "EnvRelease"    
+        // config.General.DeployEnvironment        = "EnvRelease"     
 
-        //=======================//
-        // GENERAL CONFIGURATION
-        //=======================//        
-        config.Datastores["Default"] = [:]
-        config.Datastores["Default"].DatastoreServer = "uycls266.mdp.local:1433"
-        config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
-        config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433:1433/Canastas_Produccion"            
+        // //=======================//
+        // // GENERAL CONFIGURATION
+        // //=======================//        
+        // config.Datastores["Default"] = [:]
+        // config.Datastores["Default"].DatastoreServer = "uycls266.mdp.local:1433"
+        // config.Datastores["Default"].DatastoreDatabase = "Canastas_Desarrollo"
+        // config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
+        // config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433:1433/Canastas_Produccion"            
 
-        // GAM datastore connection information
-        config.Datastores["GAM"] = [:]
-        config.Datastores["GAM"].DatastoreServer = "uycls266.mdp.local"
-        config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion"        
+        // // GAM datastore connection information
+        // config.Datastores["GAM"] = [:]
+        // config.Datastores["GAM"].DatastoreServer = "uycls266.mdp.local"
+        // config.Datastores["GAM"].DatastoreDatabase = "CanastasGAM_Desarrollo"
+        // config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
+        // config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://uycls266.mdp.local:1433/CanastasGAM_Produccion"        
 
-        config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
+        // config.Environment.GAMRepositoryId  = "ca9bc12d-ec23-496a-bf95-f919629189ef"
 
-        config.Git.GitEnvironment = "prod" //GitHub MdP
+        // config.Git.GitEnvironment = "prod" //GitHub MdP
 
     }
 
@@ -176,7 +176,7 @@ def getForEnvironment(envName) {
     config.Environment.GAMAdminCredentialKey        = "credentials-gamadmin"
     // config.Environment.GAMAdminUsername             = ""
     // config.Environment.GAMAdminPassword             = ""
-    config.Environment.GAMConnectionCredentialKey   = "credentials-canastas-gamconnection"
+    config.Environment.GAMConnectionCredentialKey   = "credentials-${config.General.WebAppName}-gamconnection"
     // config.Environment.GAMConnectionUsername        = ""
     // config.Environment.GAMConnectionPassword        = ""
 
