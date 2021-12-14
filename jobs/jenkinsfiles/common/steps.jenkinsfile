@@ -5,7 +5,7 @@ def config
 pipeline {
     agent { label "win-genexus" }
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "KBEnvironment", choices: ["EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
     }
     stages {
         stage("Init") {
@@ -54,16 +54,32 @@ pipeline {
                         usernamePassword(
                         credentialsId: config.Environment.GAMConnectionCredentialKey, 
                         usernameVariable: 'ConnectionUsername', 
-                        passwordVariable: 'ConnectionPassword'),
+                        passwordVariable: 'ConnectionPassword')
 
-                        usernamePassword(
-                        credentialsId: config.General.DBCredentialKey, 
-                        usernameVariable: 'user', 
-                        passwordVariable: 'password')                        
-                        ]) { 
+                        ]) {    
 
-                        config.Datastores.each { ds ->
-               
+                            def envProps = utilScript.getMSBuildParams(config.General) + 
+                            utilScript.getMSBuildParams(config.Environment) + 
+                            utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
+                            utilScript.makeParam("GAMAdminPassword", AdminPassword) +
+                            utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
+                            utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
+
+                            bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_environment_properties.msbuild\""
+                       
+                    }
+                    
+                    config.Datastores.each { ds ->
+
+                        withCredentials([
+
+                            usernamePassword(
+                            credentialsId: ds.key, 
+                            usernameVariable: 'user', 
+                            passwordVariable: 'password')                            
+
+                        ]) {
+            
                             def dsProps = utilScript.getMSBuildParams(config.General) + 
                             utilScript.makeParam("DatastoreName", ds.key) + 
                             utilScript.makeParam("DatastoreUsername", user) + 
@@ -71,18 +87,8 @@ pipeline {
                             utilScript.getMSBuildParams(config.Datastores[ds.key])
 
                             bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_datastore_properties.msbuild\""
-                        }    
-
-                        def envProps = utilScript.getMSBuildParams(config.General) + 
-                        utilScript.getMSBuildParams(config.Environment) + 
-                        utilScript.makeParam("GAMAdminUsername", AdminUsername) + 
-                        utilScript.makeParam("GAMAdminPassword", AdminPassword) +
-                        utilScript.makeParam("GAMConnectionUsername", ConnectionUsername) + 
-                        utilScript.makeParam("GAMConnectionPassword", ConnectionPassword)
-
-                        bat "msbuild.exe ${envProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_environment_properties.msbuild\""
-                       
-                    }
+                        }  
+                    }                
                 }
             }
         }
@@ -111,7 +117,7 @@ pipeline {
                     config.DeploymentUnits.each { du ->
                         def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
 
-                        bat utilScript.copyFile("jobs\\jenkinsfiles\\IFC\\${du.key}_user.gxdproj", 
+                        bat utilScript.copyFile("jobs\\jenkinsfiles\\${config.General.Name}\\${du.key}_user.gxdproj", 
                         "${config.General.EnvironmentWebFolder}\\")
 
                         bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
@@ -144,6 +150,7 @@ pipeline {
                                 bat utilScript.gitCheckout(config.Git.GitEnvironment)
                                 bat utilScript.gitAdd("${config.DeploymentUnits[du.key].DeployWebappName}.war")
                                 bat utilScript.gitCommit(config.DeploymentUnits[du.key].DeployFullPath)
+                                bat utilScript.gitPull()
                                 bat utilScript.gitPush()
 
                             }                             
