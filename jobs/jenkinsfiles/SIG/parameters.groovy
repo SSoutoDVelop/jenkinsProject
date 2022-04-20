@@ -109,7 +109,7 @@ def getForEnvironment(envName, envVersion) {
         // GIT CONFIGURATION
         //================================//    
 
-        config.Git.GitEnvironment = config.Git.GitEnvironment = envVersion.equals("mobile") == true ? "qa-${envVersion}" : "qa" //GitHub Testing  
+        config.Git.GitEnvironment = envVersion.equals("mobile") == true ? "qa-${envVersion}" : "qa" //GitHub Testing  
 
         // Android Settings
         config.SDGenerator.SmartDevicesAndroidSDK               = "C:\\Users\\ssouto\\AppData\\Local\\Android\\Sdk"
