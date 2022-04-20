@@ -63,14 +63,6 @@ def getForEnvironment(envName, envVersion) {
     config.DeploymentUnits["DUMobile"].DeployObjectNames            = "DeploymentUnit:DUMobile"     
     config.DeploymentUnits["DUMobile"].VersionEnvironment           = "mobile"     
 
-    // Android Settings
-    config.SDGenerator.SmartDevicesAndroidSDK               = "C:\\Android-SDK"
-    config.SDGenerator.SmartDevicesAndroidKeystoreFile      = "C:\\DVelop\\dvelop-montes.keystore"
-    config.SDGenerator.SmartDevicesAndroidKeyAlias          = "dvelop-montes"
-    config.SDGenerator.SmartDevicesAndroidKeyStorePassword  = "montes"
-    config.SDGenerator.SmartDevicesAndroidKeyPassword       = "montes"
-    config.SDGenerator.SmartDevicesAndroidCompilationMode   = "COMPILATION_MODE_DISTRIBUTION" 
-
     if(envName.equals("EnvLocal")) {
 
         config.General.WorkingEnvironment       = "EnvLocal"    
@@ -112,7 +104,15 @@ def getForEnvironment(envName, envVersion) {
         // GIT CONFIGURATION
         //================================//    
 
-        config.Git.GitEnvironment = "dev" //GitHub Testing           
+        config.Git.GitEnvironment = config.Git.GitEnvironment = envVersion.equals("mobile") == true ? "qa-${envVersion}" : "qa" //GitHub Testing  
+
+        // Android Settings
+        config.SDGenerator.SmartDevicesAndroidSDK               = "C:\\Users\\ssouto\\AppData\\Local\\Android\\Sdk"
+        config.SDGenerator.SmartDevicesAndroidKeystoreFile      = "C:\\Users\\ssouto\\Desktop\\Proyectos\\MdP\\Campo\\campoenvlocal.keystore"
+        config.SDGenerator.SmartDevicesAndroidKeyAlias          = "ssouto"
+        config.SDGenerator.SmartDevicesAndroidKeyStorePassword  = "121212"
+        config.SDGenerator.SmartDevicesAndroidKeyPassword       = "121212"
+        config.SDGenerator.SmartDevicesAndroidCompilationMode   = "COMPILATION_MODE_DISTRIBUTION"                  
 
     }
 
@@ -155,7 +155,15 @@ def getForEnvironment(envName, envVersion) {
         config.Git.GitEnvironment = envVersion.equals("mobile") == true ? "dev-${envVersion}" : "dev" //GitHub MdP    
 
         // Services URL
-        config.SDGenerator.SmartDevicesServicesURL  = "http://sigdev.mdp.local/"         
+        config.SDGenerator.SmartDevicesServicesURL  = "http://sigdev.mdp.local/"     
+
+        // Android Settings
+        config.SDGenerator.SmartDevicesAndroidSDK               = "C:\\Android-SDK"
+        config.SDGenerator.SmartDevicesAndroidKeystoreFile      = "C:\\DVelop\\dvelop-montes.keystore"
+        config.SDGenerator.SmartDevicesAndroidKeyAlias          = "dvelop-montes"
+        config.SDGenerator.SmartDevicesAndroidKeyStorePassword  = "montes"
+        config.SDGenerator.SmartDevicesAndroidKeyPassword       = "montes"
+        config.SDGenerator.SmartDevicesAndroidCompilationMode   = "COMPILATION_MODE_DISTRIBUTION"            
 
     }
 
@@ -198,7 +206,15 @@ def getForEnvironment(envName, envVersion) {
         config.Git.GitEnvironment = envVersion.equals("mobile") == true ? "qa-${envVersion}" : "qa" //GitHub MdP
 
         // Services URL
-        config.SDGenerator.SmartDevicesServicesURL  = "https://sigqa.montesdelplata.com.uy/"   
+        config.SDGenerator.SmartDevicesServicesURL  = "https://sigqa.montesdelplata.com.uy/"  
+
+        // Android Settings
+        config.SDGenerator.SmartDevicesAndroidSDK               = "C:\\Android-SDK"
+        config.SDGenerator.SmartDevicesAndroidKeystoreFile      = "C:\\DVelop\\dvelop-montes.keystore"
+        config.SDGenerator.SmartDevicesAndroidKeyAlias          = "dvelop-montes"
+        config.SDGenerator.SmartDevicesAndroidKeyStorePassword  = "montes"
+        config.SDGenerator.SmartDevicesAndroidKeyPassword       = "montes"
+        config.SDGenerator.SmartDevicesAndroidCompilationMode   = "COMPILATION_MODE_DISTRIBUTION"         
     }
 
     withCredentials([
