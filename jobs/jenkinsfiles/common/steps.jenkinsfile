@@ -20,29 +20,29 @@ pipeline {
                 }
             }            
         }
-        // stage("Update KB") {
-        //     steps {
-        //         echo "Updating KB.."
-        //         script {
+        stage("Update KB") {
+            steps {
+                echo "Updating KB.."
+                script {
 
-        //             withCredentials([
-        //                 usernamePassword(
-        //                 credentialsId: config.GXServer.GXServerCredentialsKey, 
-        //                 usernameVariable: 'Username', 
-        //                 passwordVariable: 'Password')
-        //                 ]) {
+                    withCredentials([
+                        usernamePassword(
+                        credentialsId: config.GXServer.GXServerCredentialsKey, 
+                        usernameVariable: 'Username', 
+                        passwordVariable: 'Password')
+                        ]) {
                              
-        //                 def buildProps = utilScript.getMSBuildParams(config.General) + 
-        //                 utilScript.getMSBuildParams(config.GXServer) + 
-        //                 utilScript.makeParam("GXServerUsername", Username) + 
-        //                 utilScript.makeParam("GXServerPassword", Password)
+                        def buildProps = utilScript.getMSBuildParams(config.General) + 
+                        utilScript.getMSBuildParams(config.GXServer) + 
+                        utilScript.makeParam("GXServerUsername", Username) + 
+                        utilScript.makeParam("GXServerPassword", Password)
 
-        //                 bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\update_kb.msbuild\""                 
+                        bat "msbuild.exe ${buildProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\update_kb.msbuild\""                 
                         
-        //             }     
-        //         }
-        //     }
-        // }
+                    }     
+                }
+            }
+        }
         stage("Set Properties") {
             steps {
                 echo "Setting Properties.."
