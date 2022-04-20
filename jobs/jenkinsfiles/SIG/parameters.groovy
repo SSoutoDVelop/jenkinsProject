@@ -9,6 +9,7 @@ def getForEnvironment(envName, envVersion) {
     config.Datastores       = [:]
     config.DeploymentUnits  = [:]
     config.WebGenerator     = [:]
+    config.SDGenerator     = [:]
 
     config.General.Name                     = "sig"
     config.General.WebAppName               = "sig"
