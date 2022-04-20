@@ -1,7 +1,9 @@
 def getMSBuildParams(dictionary) {
     def params = ""
     for (p in dictionary) {
-        params += "/p:${p.key}=\"${p.value}\" "
+        if (p.key != "CredentialId") {
+            params += "/p:${p.key}=\"${p.value}\" "
+        }
     }
     return params
 }
@@ -20,13 +22,13 @@ def cloneRepo(env, gitEnv, name) {
 
         case "EnvLocal":
 
-            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/canastas.git ${name}_${gitEnv}"
+            return "git clone -b ${gitEnv} https://github.com/SSoutoDVelop/${name}.git ${name}_${gitEnv}"
 
             break
 
         case "EnvStable" || "EnvRelease":
 
-            return "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/canastas.git ${name}_${gitEnv}"
+            return "git clone -b ${gitEnv} https://soporte.dvelop:MDPOctubre.2021@gitlab.montesdelplata.com.uy/OKD/${name}.git ${name}_${gitEnv}"
 
             break
 
@@ -37,6 +39,7 @@ def cloneRepo(env, gitEnv, name) {
 def gitCheckout(env) {
 
     return "git checkout ${env}"
+
 }
 
 def gitAdd(webapp) {
@@ -51,9 +54,27 @@ def gitCommit(comment) {
 
 }
 
+def gitPull() {
+
+    return "git pull"
+
+}
+
 def gitPush() {
 
     return "git push"
+
+}
+
+def deployAzure(user, pass, zipfile, apiurl) {
+
+    return "curl -X PUT -u ${user}:${pass} --data-binary @${zipfile} ${apiurl}"
+
+}
+
+def deployTareasProgramadasAzure(zipfile, taskDir) {
+
+    return '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy"' + " -verb:sync -skip:Directory=Logs -source:package=${zipfile} -dest:contentPath=C:\\DVelop\\TareasProgramadas\\${taskDir},computerName=clazs003"
 
 }
 

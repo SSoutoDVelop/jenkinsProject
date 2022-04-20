@@ -1,0 +1,55 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<!-- ##### SET SMART DEVICES ENVIRONMENT PROPERTIES ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAppTitle)' != ''" Object="$(SmartDevicesMainObject)" Name="AppTitle" Value="$(SmartDevicesAppTitle)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesObfuscateApplication)' != ''" Object="$(SmartDevicesMainObject)" Name="idObfuscateApplication" Value="$(SmartDevicesObfuscateApplication)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIdentifier)' != ''" Object="$(SmartDevicesMainObject)" Name="AndroidPackageName" Value="$(SmartDevicesIdentifier)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIdentifier)' != ''" Object="$(SmartDevicesMainObject)" Name="iOSBundleIdentifier" Value="$(SmartDevicesIdentifier)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAndroidIdentifier)' != ''" Object="$(SmartDevicesMainObject)" Name="AndroidPackageName" Value="$(SmartDevicesAndroidIdentifier)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIOSIdentifier)' != ''" Object="$(SmartDevicesMainObject)" Name="iOSBundleIdentifier" Value="$(SmartDevicesIOSIdentifier)" />
+		<!-- AndroidAppIcon -->
+		<!-- iOSAppIcon -->
+
+		<!-- ##### SET SMART DEVICES VERSION ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesVersionCode)' != ''" Object="$(SmartDevicesMainObject)" Name="idAPPAndroidVersionCode" Value="$(SmartDevicesVersionCode)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesVersionName)' != ''" Object="$(SmartDevicesMainObject)" Name="idAPPAndroidVersionName" Value="$(SmartDevicesVersionName)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesVersionCode)' != ''" Object="$(SmartDevicesMainObject)" Name="idiosAPPVersionCode" Value="$(SmartDevicesVersionCode)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesVersionName)' != ''" Object="$(SmartDevicesMainObject)" Name="idiosAPPVersionName" Value="$(SmartDevicesVersionName)" />
+		
+		<!-- ##### SET SMART DEVICES LOG SETTINGS ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesLogLevel)' != ''" Object="$(SmartDevicesMainObject)" Name="LogLevelDefault" Value="$(SmartDevicesLogLevel)" />
+
+		<!-- ##### SET SMART DEVICES DEEP LINK URL ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesDeepLinkBaseURL)' != ''" Object="$(SmartDevicesMainObject)" Name="DeepLinkBaseURL" Value="$(SmartDevicesDeepLinkBaseURL)" />
+
+		<!-- ##### SET SMART DEVICES ANALYITICS ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAnalyticsProvider)' != ''" Object="$(SmartDevicesMainObject)" Name="ANALYTICS_PROVIDER" Value="$(SmartDevicesAnalyticsProvider)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesGoogleAnalyticsTrackerId)' != ''" Object="$(SmartDevicesMainObject)" Name="GoogleAnalyticsTrackerId" Value="$(SmartDevicesGoogleAnalyticsTrackerId)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAndroidFirebaseFile)' != ''" Object="$(SmartDevicesMainObject)" Name="FirebaseAnalytics_FirebaseAnalyticsFile" Value="$(SmartDevicesAndroidFirebaseFile)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIOSFirebaseFile)' != ''" Object="$(SmartDevicesMainObject)" Name="FirebaseAnalytics_FirebaseAnalyticsIOSFile" Value="$(SmartDevicesIOSFirebaseFile)" />
+
+		<!-- ##### SET iOS PROPERTIES ##### -->
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIOSAppleTeamId)' != ''" Object="$(SmartDevicesMainObject)" Name="iOSDevelopmentTeam" Value="$(SmartDevicesIOSAppleTeamId)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIOSCertificate)' != ''" Object="$(SmartDevicesMainObject)" Name="iOScertificate" Value="$(SmartDevicesIOSCertificate)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesIOSCertificatePassword)' != ''" Object="$(SmartDevicesMainObject)" Name="iOScertificatePassword" Value="$(SmartDevicesIOSCertificatePassword)" />
+		
+		<!-- ##### SET ANDROID PROPERTIES ##### -->		
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAndroidSenderId)' != ''" Object="$(SmartDevicesMainObject)" Name="androidSenderId" Value="$(SmartDevicesAndroidSenderId)" />
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesAndroidSenderApiKey)' != ''" Object="$(SmartDevicesMainObject)" Name="androidSenderAPIKey" Value="$(SmartDevicesAndroidSenderApiKey)" />
+
+		<!-- ##### SET GOOGLE SERVICES API KEY ##### -->		
+		<SetObjectProperty Condition="'$(SmartDevicesMainObject)' != '' And '$(SmartDevicesGoogleServicesApiKey)' != ''" Object="$(SmartDevicesMainObject)" Name="AndroidYoutubeAPIKey" Value="$(SmartDevicesGoogleServicesApiKey)" />
+
+	</Target>
+</Project>

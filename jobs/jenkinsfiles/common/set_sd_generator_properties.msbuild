@@ -1,0 +1,37 @@
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(GX_PROGRAM_DIR)\Imports.targets"/>
+	<Target Name="Default">
+
+		<!-- ##### OPEN KB ##### -->
+		<OpenKnowledgeBase Directory="$(WorkingDirectory)"/>
+
+		<!-- ##### SET VERSION ##### -->
+		<SetActiveVersion VersionName="$(WorkingVersion)"  />
+
+		<!-- ##### SET ENVIRONMENT ##### -->
+		<SetActiveEnvironment EnvironmentName="$(WorkingEnvironment)" />
+
+		<!-- ##### SET ENABLED SMART DEVICES ##### -->
+		<SetGeneratorProperty Condition="'$(SmartDevicesBuildAndroid)' != ''" Generator="SmartDevices" Name="ANDROID" Value="$(SmartDevicesBuildAndroid)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesBuildIOS)' != ''" Generator="SmartDevices" Name="IOS" Value="$(SmartDevicesBuildIOS)" />
+		
+		<!-- ##### SET SMART DEVICES URL ##### -->
+		<SetGeneratorProperty Condition="'$(SmartDevicesDynamicURL)' != ''" Generator="SmartDevices" Name="DynamicURL" Value="$(SmartDevicesDynamicURL)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesServicesURL)' != ''" Generator="SmartDevices" Name="ServicesURL" Value="$(SmartDevicesServicesURL)" />
+
+		<!-- ##### SET iOS PROPERTIES ##### -->
+		<SetGeneratorProperty Condition="'$(SmartDevicesIOSExecutionType)' != ''" Generator="SmartDevices" Name="EXEC_TYPE" Value="$(SmartDevicesIOSExecutionType)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesIOSMacHost)' != ''" Generator="SmartDevices" Name="MAC_HOST" Value="$(SmartDevicesIOSMacHost)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesIOSMacUser)' != ''" Generator="SmartDevices" Name="MAC_USER" Value="$(SmartDevicesIOSMacUser)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesIOSMacPassword)' != ''" Generator="SmartDevices" Name="MAC_PASS" Value="$(SmartDevicesIOSMacPassword)" />
+
+		<!-- ##### SET ANDROID PROPERTIES ##### -->		
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidSDK)' != ''" Generator="SmartDevices" Name="ANDROID_SDK_DIR" Value="$(SmartDevicesAndroidSDK)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidCompilationMode)' != ''" Generator="SmartDevices" Name="CompilationMode" Value="$(SmartDevicesAndroidCompilationMode)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidKeystoreFile)' != ''" Generator="SmartDevices" Name="KEYSTORE_FILE" Value="$(SmartDevicesAndroidKeystoreFile)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidKeyAlias)' != ''" Generator="SmartDevices" Name="idKeyAlias" Value="$(SmartDevicesAndroidKeyAlias)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidKeyStorePassword)' != ''" Generator="SmartDevices" Name="KEYSTORE_PASSWORD" Value="$(SmartDevicesAndroidKeyStorePassword)" />
+		<SetGeneratorProperty Condition="'$(SmartDevicesAndroidKeyPassword)' != ''" Generator="SmartDevices" Name="KEY_PASSWORD" Value="$(SmartDevicesAndroidKeyPassword)" />
+
+	</Target>
+</Project>

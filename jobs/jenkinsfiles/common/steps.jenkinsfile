@@ -5,7 +5,9 @@ def config
 pipeline {
     agent { label "win-genexus" }
     parameters {
-        choice(name: "KBEnvironment", choices: ["EnvLocal", "EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "KBEnvironment", choices: ["EnvStable", "EnvRelease"], description: "Select KB Environment to Deploy")
+        choice(name: "VersionEnvironment", choices: ["web", "tareasProg", "mobile", "all"], description: "Select Version Environment to Deploy")
+        choice(name: "VersionMobile", choices: ["none", "v1", "v2", "v3"], description: "Select Version Mobile Deploy")
     }
     stages {
         stage("Init") {
@@ -14,7 +16,7 @@ pipeline {
                 script {
                     utilScript = load "jobs\\jenkinsfiles\\common\\util.groovy"
                     parametersScript = load "jobs\\jenkinsfiles\\${JOB_NAME.split("/")[0]}\\parameters.groovy"
-                    config = parametersScript.getForEnvironment(params.KBEnvironment)
+                    config = parametersScript.getForEnvironment(params.KBEnvironment, params.VersionEnvironment)
                 }
             }            
         }
@@ -74,7 +76,7 @@ pipeline {
                         withCredentials([
 
                             usernamePassword(
-                            credentialsId: ds.key, 
+                            credentialsId: config.Datastores[ds.key].CredentialId == null ? "${ds.key}_${config.General.DeploymentPlatform}" : config.Datastores[ds.key].CredentialId, 
                             usernameVariable: 'user', 
                             passwordVariable: 'password')                            
 
@@ -88,7 +90,24 @@ pipeline {
 
                             bat "msbuild.exe ${dsProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_datastore_properties.msbuild\""
                         }  
-                    }                
+                    }
+
+                    if (config.General.DeploymentPlatform == "Azure") {
+                        if (params.VersionMobile != "none") {
+                            config.SDGenerator.SmartDevicesServicesURL += "${params.VersionMobile}"
+                        }
+                        else {
+                            config.SDGenerator.SmartDevicesServicesURL += "web"
+                        }
+                    }
+
+                    def sdProps = utilScript.getMSBuildParams(config.General) + utilScript.getMSBuildParams(config.SDGenerator)
+                    bat "msbuild.exe ${sdProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_sd_generator_properties.msbuild\""
+                    
+                    config.SDMainObjects.each { obj ->
+                        def mainProps = utilScript.getMSBuildParams(config.General) + "/p:SmartDevicesMainObject=\"${obj.key}\" " + utilScript.getMSBuildParams(config.SDMainObjects[obj.key])
+                        bat "msbuild.exe ${mainProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\set_sd_main_properties.msbuild\""
+                    }                                 
                 }
             }
         }
@@ -115,13 +134,18 @@ pipeline {
                 echo "Packing Deployment Units.."
                 script {                    
                     config.DeploymentUnits.each { du ->
-                        def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
 
-                        bat utilScript.copyFile("jobs\\jenkinsfiles\\${config.General.Name}\\${du.key}_user.gxdproj", 
-                        "${config.General.EnvironmentWebFolder}\\")
+                        if (params.VersionEnvironment == config.DeploymentUnits[du.key].VersionEnvironment || params.VersionEnvironment == "all") {
 
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
-                        bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""
+                            def duProps = utilScript.getMSBuildParams(config.General) + "/p:DeploymentUnit=\"${du.key}\" " + utilScript.getMSBuildParams(config.DeploymentUnits[du.key])
+
+                            bat utilScript.copyFile("jobs\\jenkinsfiles\\${config.General.Name}\\${du.key}_user.gxdproj", 
+                            "${config.General.EnvironmentWebFolder}\\")
+
+                            bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"jobs\\jenkinsfiles\\common\\prepare_deploy.msbuild\""
+                            bat "msbuild.exe ${duProps} /tv:4.0 /verbosity:normal \"${config.General.EnvironmentWebFolder}\\${config.DeploymentUnits[du.key].DeployProjectName}.gxdproj\""                            
+                            
+                        }
                     }
                 }
             }
@@ -131,14 +155,15 @@ pipeline {
                 equals(actual: JOB_NAME, expected: "${config.General.Name}/Deploy_KB")
             }                        
             steps {
+                echo "Publishing WebApps.."
                 script {   
                     config.DeploymentUnits.each { du ->
-                        if(config.DeploymentUnits[du.key].DeployApplicationCompiler == 'JAVA') {
+                        if(config.General.DeploymentPlatform == 'OKD') {
 
                             dir("${config.Git.GitFolder}\\") {
 
                                 if(!fileExists("${config.Git.GitEnvFolder}\\")) {
-                                    bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.WebAppName)      
+                                    bat utilScript.cloneRepo(params.KBEnvironment, config.Git.GitEnvironment, config.General.Name)      
                                 } 
                             }  
 
@@ -153,11 +178,66 @@ pipeline {
                                 bat utilScript.gitPull()
                                 bat utilScript.gitPush()
 
-                            }                             
-                        }                                          
+                            }                         
+                        }           
+                        else if (config.General.DeploymentPlatform == 'Azure') {
+
+
+                            withCredentials([
+
+                                usernamePassword(
+                                credentialsId: config.General.WebAppName, 
+                                usernameVariable: 'user', 
+                                passwordVariable: 'pass')                            
+
+                            ]) {
+
+                                if(params.VersionEnvironment == 'web' && du.key == 'WebAppDeploy') {
+                                
+                                    bat utilScript.deployAzure( user, pass, "${config.DeploymentUnits[du.key].DeployFullPath}.zip", "${config.DeploymentUnits[du.key].ApiURL}/${params.VersionEnvironment}")
+                                
+                                }
+
+                                else if (params.VersionEnvironment == 'tareasProg' && du.key == 'TareasProgramadasDeploy') {   
+
+                                    bat utilScript.deployTareasProgramadasAzure("${config.DeploymentUnits[du.key].DeployFullPath}.zip", config.General.TaskDir)     
+
+                                } 
+
+                                else if (params.VersionEnvironment == 'mobile' && params.VersionMobile != 'none' && du.key == 'MobileAppDeploy') {
+
+                                    bat utilScript.deployAzure( user, pass, "${config.DeploymentUnits[du.key].DeployFullPath}.zip", "${config.DeploymentUnits[du.key].ApiURL}/${params.VersionMobile}")
+
+                                }                                   
+                            }      
+                        }                               
                     }                    
                 }
             }
-        }             
+        }
+        // stage ("Publish MobileApps") {
+        //     when {
+        //         equals(actual: JOB_NAME, expected: "${config.General.Name}/Deploy_KB")
+        //         equals(actual: params.VersionEnvironment, expected: "mobile")
+        //         anyOf {
+        //             equals(actual: params.VersionMobile, expected: "v1")
+        //             equals(actual: params.VersionMobile, expected: "v2")
+        //             equals(actual: params.VersionMobile, expected: "v3")
+
+        //         }
+        //     }
+        //     steps {
+        //         script {   
+        //             config.SDMainObjects.each { obj ->
+
+        //                 if(config.SDGenerator.SmartDevicesBuildAndroid.equals("True")) {
+        //                     def targetApk = "${env.WORKSPACE}\\${obj.key}${config.General.VersionSuffix}.apk"
+        //                     bat utilScript.copyFile(config.SDMainObjects[obj.key].SmartDevicesAndroidAPK, targetApk)
+        //                     bat utilScript.appcenterUpload(config.AppCenter.AppCenterToken, config.AppCenter.AppCenterOwner, "${config.SDMainObjects[obj.key].AppCenterNameAndroid}", config.AppCenter.AppCenterGroup, targetApk)
+        //                 }            
+        //             }            
+        //         }
+        //     }            
+        // }    
     }
 }
