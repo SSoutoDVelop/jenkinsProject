@@ -89,7 +89,7 @@ def getForEnvironment(envName, envVersion) {
         config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/SIGEnvLocal_GAM"    
         config.Datastores["GAM"].CredentialId = "localhost"        
 
-        config.Environment.GAMRepositoryId  = "41474542-c051-4909-b51c-607730d0da8d" 
+        config.Environment.GAMRepositoryId  = "9ef870c2-ab9a-442e-80ae-b9669c263c5f" 
 
         config.Datastores["MdPStaging"] = [:]
         config.Datastores["MdPStaging"].DatastoreServer = "localhost"
