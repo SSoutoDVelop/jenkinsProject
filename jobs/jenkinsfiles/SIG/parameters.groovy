@@ -11,7 +11,7 @@ def getForEnvironment(envName, envVersion) {
     config.WebGenerator     = [:]
     config.SDGenerator     = [:]
 
-    config.General.Name                     = "sig"
+    config.General.Name                     = "SIG"
     config.General.WebAppName               = "sig"
     config.General.VersionSuffix            = "_v${env.BUILD_NUMBER}_${envName}"
     config.General.GXProgramDirKey          = "gx-programdir-17U7"
