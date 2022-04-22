@@ -46,23 +46,23 @@ def getForEnvironment(envName, envVersion) {
     config.DeploymentUnits["DUWeb"].DeployObjectNames            = "DeploymentUnit:DUWeb"      
     config.DeploymentUnits["DUWeb"].VersionEnvironment           = "web"   
 
-    config.DeploymentUnits["DUMobile"]                              = [:]
-    config.DeploymentUnits["DUMobile"].DeployTargetId               = "LOCAL" 
-    config.DeploymentUnits["DUMobile"].DeployApplicationCompiler    = "JAVA" 
-    config.DeploymentUnits["DUMobile"].DeploySelectedObjectsOnly    = "False"
-    config.DeploymentUnits["DUMobile"].DeployApplicationServer      = "Tomcat 8.x"
-    config.DeploymentUnits["DUMobile"].DeployUseAppServerDatasource = "False" 
-    config.DeploymentUnits["DUMobile"].DeployIncludeGAM             = "False" 
-    config.DeploymentUnits["DUMobile"].DeployGXflowbackoffice       = "True" 
-    config.DeploymentUnits["DUMobile"].DeployTargetJRE              = "9" 
-    config.DeploymentUnits["DUMobile"].DeployPackageFormat          = "Automatic" 
-    config.DeploymentUnits["DUMobile"].DeployTimeStamp              = "${env.BUILD_TIMESTAMP}"    
-    config.DeploymentUnits["DUMobile"].DeployFileFullPath           = "${env.WORKSPACE}" 
-    config.DeploymentUnits["DUMobile"].DeployWebappName             = config.General.Name
-    config.DeploymentUnits["DUMobile"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
-    config.DeploymentUnits["DUMobile"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
-    config.DeploymentUnits["DUMobile"].DeployObjectNames            = "DeploymentUnit:DUMobile"     
-    config.DeploymentUnits["DUMobile"].VersionEnvironment           = "mobile"     
+    // config.DeploymentUnits["DUMobile"]                              = [:]
+    // config.DeploymentUnits["DUMobile"].DeployTargetId               = "LOCAL" 
+    // config.DeploymentUnits["DUMobile"].DeployApplicationCompiler    = "JAVA" 
+    // config.DeploymentUnits["DUMobile"].DeploySelectedObjectsOnly    = "False"
+    // config.DeploymentUnits["DUMobile"].DeployApplicationServer      = "Tomcat 8.x"
+    // config.DeploymentUnits["DUMobile"].DeployUseAppServerDatasource = "False" 
+    // config.DeploymentUnits["DUMobile"].DeployIncludeGAM             = "False" 
+    // config.DeploymentUnits["DUMobile"].DeployGXflowbackoffice       = "True" 
+    // config.DeploymentUnits["DUMobile"].DeployTargetJRE              = "9" 
+    // config.DeploymentUnits["DUMobile"].DeployPackageFormat          = "Automatic" 
+    // config.DeploymentUnits["DUMobile"].DeployTimeStamp              = "${env.BUILD_TIMESTAMP}"    
+    // config.DeploymentUnits["DUMobile"].DeployFileFullPath           = "${env.WORKSPACE}" 
+    // config.DeploymentUnits["DUMobile"].DeployWebappName             = config.General.Name
+    // config.DeploymentUnits["DUMobile"].DeployProjectName            = "${config.General.WebAppName}${config.General.VersionSuffix}" 
+    // config.DeploymentUnits["DUMobile"].DeployFullPath               = "${env.WORKSPACE}\\${config.General.WebAppName}${config.General.VersionSuffix}" 
+    // config.DeploymentUnits["DUMobile"].DeployObjectNames            = "DeploymentUnit:DUMobile"     
+    // config.DeploymentUnits["DUMobile"].VersionEnvironment           = "mobile"     
 
     if(envName.equals("EnvLocal")) {
 
