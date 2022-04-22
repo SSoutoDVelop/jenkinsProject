@@ -79,14 +79,12 @@ def getForEnvironment(envName, envVersion) {
         config.Datastores["Default"].DatastoreServer = "localhost"
         config.Datastores["Default"].DatastoreDatabase = "SIGEnvLocal"
         config.Datastores["Default"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["Default"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/SIGEnvLocal"  
         config.Datastores["Default"].CredentialId = "localhost"          
 
         config.Datastores["GAM"] = [:]
         config.Datastores["GAM"].DatastoreServer = "localhost"
         config.Datastores["GAM"].DatastoreDatabase = "SIGEnvLocal_GAM"
-        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["GAM"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/SIGEnvLocal_GAM"    
+        config.Datastores["GAM"].DatastoreUseJDBCCustomUrl = "True" 
         config.Datastores["GAM"].CredentialId = "localhost"        
 
         config.Environment.GAMRepositoryId  = "9ef870c2-ab9a-442e-80ae-b9669c263c5f" 
@@ -95,14 +93,12 @@ def getForEnvironment(envName, envVersion) {
         config.Datastores["MdPStaging"].DatastoreServer = "localhost"
         config.Datastores["MdPStaging"].DatastoreDatabase = "SIGEnvLocal"
         config.Datastores["MdPStaging"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["MdPStaging"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/SIGEnvLocal"
         config.Datastores["MdPStaging"].CredentialId = "localhost"   
 
         config.Datastores["Portal"] = [:]
         config.Datastores["Portal"].DatastoreServer = "localhost"
         config.Datastores["Portal"].DatastoreDatabase = "SIGEnvLocal_GAM"
-        config.Datastores["Portal"].DatastoreUseJDBCCustomUrl = "True"
-        config.Datastores["Portal"].DatastoreJDBCCustomUrl = "jdbc:jtds:sqlserver://localhost:1433/SIGEnvLocal_GAM"  
+        config.Datastores["Portal"].DatastoreUseJDBCCustomUrl = "True" 
         config.Datastores["Portal"].CredentialId = "localhost"        
 
         //================================//
