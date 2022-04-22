@@ -71,6 +71,11 @@ def gitLFSTrack() {
     return 'git lfs track "*.war"'
 }
 
+def gitAttributes() {
+    
+    return "git add .gitattributes"
+}
+
 def deployAzure(user, pass, zipfile, apiurl) {
 
     return "curl -X PUT -u ${user}:${pass} --data-binary @${zipfile} ${apiurl}"
