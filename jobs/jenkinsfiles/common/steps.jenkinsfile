@@ -173,6 +173,7 @@ pipeline {
                                 "${config.Git.GitEnvFolder}\\${config.DeploymentUnits[du.key].DeployWebappName}.war")         
 
                                 bat utilScript.gitCheckout(config.Git.GitEnvironment)
+                                bat utilScript.gitLFSTrack()
                                 bat utilScript.gitAdd("${config.DeploymentUnits[du.key].DeployWebappName}.war")
                                 bat utilScript.gitCommit(config.DeploymentUnits[du.key].DeployFullPath)
                                 bat utilScript.gitPull()
